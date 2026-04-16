@@ -22,8 +22,13 @@
                     <img src="{{ $media->first()->getUrl('large') }}" alt="{{ $name }}" class="w-full h-full object-cover">
                 </div>
             @else
-                <div class="aspect-square bg-mystic-800/50 border border-gold-500/10 rounded-xl flex items-center justify-center text-gold-400/30">
-                    <svg class="w-24 h-24" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="aspect-square relative bg-gradient-to-br from-purple-900/60 via-mystic-800 to-mystic-950 border border-gold-500/20 rounded-xl overflow-hidden flex items-center justify-center">
+                    <div class="absolute inset-0 opacity-20" style="background: radial-gradient(circle at center, #d4a853 0%, transparent 60%);"></div>
+                    <svg class="relative w-48 h-48 text-gold-400/70 animate-pulse" style="animation-duration:5s" fill="none" stroke="currentColor" stroke-width="0.5" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 2l2.39 7.36H22l-6.18 4.49 2.36 7.36L12 16.72 5.82 21.21l2.36-7.36L2 9.36h7.61z"/>
+                    </svg>
+                    <span class="absolute bottom-6 left-0 right-0 text-center text-gold-400/60 text-[10px] uppercase tracking-[0.4em] font-heading">Ritual consagrado</span>
                 </div>
             @endif
         </div>

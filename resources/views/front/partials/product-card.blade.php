@@ -14,9 +14,11 @@
             <img src="{{ $image->getUrl('medium') }}" alt="{{ $name }}" loading="lazy"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
         @else
-            <div class="w-full h-full flex items-center justify-center text-gold-400/30">
-                <svg class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <div class="w-full h-full relative bg-gradient-to-br from-purple-900/60 via-mystic-800 to-mystic-950 flex items-center justify-center">
+                <div class="absolute inset-0 opacity-25" style="background: radial-gradient(circle at center, #d4a853 0%, transparent 55%);"></div>
+                <svg class="relative w-20 h-20 text-gold-400/70" fill="none" stroke="currentColor" stroke-width="0.6" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2l2.39 7.36H22l-6.18 4.49 2.36 7.36L12 16.72 5.82 21.21l2.36-7.36L2 9.36h7.61z"/>
                 </svg>
             </div>
         @endif
