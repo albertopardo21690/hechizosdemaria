@@ -24,6 +24,7 @@
 
     @include('front.partials.footer')
     @include('front.partials.whatsapp-float')
+    @include('front.partials.cookie-consent')
 
     @livewireScripts
 </body>

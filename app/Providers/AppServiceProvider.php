@@ -13,6 +13,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        app(\Lunar\Base\ShippingModifiers::class)->add(
+            \App\Modifiers\StandardShippingModifier::class
+        );
     }
 }

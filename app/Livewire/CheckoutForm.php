@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Mail\OrderConfirmation;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Lunar\Facades\CartSession;
@@ -82,6 +84,12 @@ class CheckoutForm extends Component
                 'payment_method_selected' => $this->paymentMethod,
             ]),
         ]);
+
+        try {
+            Mail::to($this->email)->send(new OrderConfirmation($order));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return redirect()->route('payment.start', [
             'gateway' => $this->paymentMethod,
