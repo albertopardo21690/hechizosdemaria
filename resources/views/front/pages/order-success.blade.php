@@ -7,12 +7,12 @@
     </div>
     <p class="text-gold-400 text-xs tracking-[0.4em] uppercase mb-2">Gracias</p>
     <h1 class="font-heading text-3xl md:text-4xl text-shimmer mb-4">Tu pedido esta confirmado</h1>
-    <p class="text-gray-400 mb-6">Referencia: <span class="text-white font-mono">{{ $order->reference }}</span></p>
+    <p class="text-gray-600 mb-6">Referencia: <span class="text-gray-900 font-mono">{{ $order->reference }}</span></p>
 
     <div class="bg-mystic-800/50 border border-gold-500/10 rounded-2xl p-6 text-left mb-6">
-        <div class="flex justify-between mb-3"><span class="text-gray-400">Estado</span><span class="text-gold-400">{{ $order->status }}</span></div>
-        <div class="flex justify-between mb-3"><span class="text-gray-400">Total</span><span class="font-bold">{{ number_format($order->total->decimal, 2, ',', '.') }} {{ $order->currency_code === 'EUR' ? '€' : '$' }}</span></div>
-        <div class="flex justify-between"><span class="text-gray-400">Fecha</span><span>{{ $order->placed_at?->format('d/m/Y H:i') }}</span></div>
+        <div class="flex justify-between mb-3"><span class="text-gray-600">Estado</span><span class="text-gold-400">{{ $order->status }}</span></div>
+        <div class="flex justify-between mb-3"><span class="text-gray-600">Total</span><span class="font-bold">{{ number_format($order->total->decimal, 2, ',', '.') }} {{ $order->currency_code === 'EUR' ? '€' : '$' }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Fecha</span><span>{{ $order->placed_at?->format('d/m/Y H:i') }}</span></div>
     </div>
 
     <p class="text-gray-500 text-sm mb-6">Hemos enviado una confirmacion a tu email. Maria Jose se pondra en contacto contigo muy pronto.</p>

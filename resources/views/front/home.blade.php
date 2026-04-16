@@ -5,10 +5,10 @@
 @section('content')
 
 {{-- HERO --}}
-<section class="relative overflow-hidden min-h-[80vh] flex items-center">
+<section class="relative overflow-hidden min-h-[80vh] flex items-center bg-gradient-to-br from-pink-50 via-white to-pink-100">
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-mystic-900 via-mystic-900/90 to-transparent z-10"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-mystic-900/40 to-mystic-950 z-10"></div>
+        <div class="absolute top-10 right-10 w-96 h-96 bg-pink-200/40 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 left-10 w-80 h-80 bg-pink-100 rounded-full blur-3xl"></div>
     </div>
 
     <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
@@ -18,12 +18,12 @@
                 <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl mb-6 leading-[1.05]">
                     Descubre el poder de la <span class="text-shimmer italic">magia antigua</span>
                 </h1>
-                <p class="text-lg text-gray-300 mb-10 max-w-xl leading-relaxed">
+                <p class="text-lg text-gray-700 mb-10 max-w-xl leading-relaxed">
                     Lecturas de tarot, rituales personalizados de alta magia y una tienda magica con perfumes arabes, amuletos y cuarzos consagrados bajo la luz de la luna.
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="{{ route('collection', 'lecturas') }}" class="btn-mystic">Reserva tu lectura</a>
-                    <a href="{{ route('shop') }}" class="inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold tracking-widest uppercase text-sm border border-white/20 text-white hover:bg-white/10 transition">
+                    <a href="{{ route('shop') }}" class="inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold tracking-widest uppercase text-sm border border-white/20 text-gray-900 hover:bg-white/10 transition">
                         Ver rituales
                     </a>
                 </div>
@@ -99,7 +99,7 @@
             <div>
                 <p class="text-gold-400 text-xs tracking-[0.4em] uppercase mb-2">Alta magia</p>
                 <h2 class="font-heading text-3xl md:text-4xl mb-4 italic">Rituales personalizados</h2>
-                <p class="text-gray-300 mb-6 leading-relaxed">Cada ritual se adapta a tu situacion particular. Amor, proteccion, prosperidad, limpieza energetica. Magia blanca con intencion real, consagrada y canalizada por Maria Jose.</p>
+                <p class="text-gray-700 mb-6 leading-relaxed">Cada ritual se adapta a tu situacion particular. Amor, proteccion, prosperidad, limpieza energetica. Magia blanca con intencion real, consagrada y canalizada por Maria Jose.</p>
                 <a href="{{ route('collection', 'rituales') }}" class="btn-mystic">Descubre los rituales</a>
             </div>
             <div class="hidden lg:block text-center">
@@ -121,7 +121,7 @@
                 <p class="text-gold-400 text-xs tracking-[0.4em] uppercase mb-2">Tienda magica</p>
                 <h2 class="font-heading text-3xl md:text-4xl">Productos destacados</h2>
             </div>
-            <a href="{{ route('shop') }}" class="text-gold-400 hover:text-gold-300 text-xs tracking-[0.3em] uppercase font-bold inline-flex items-center gap-2 hover:gap-4 transition-all">
+            <a href="{{ route('shop') }}" class="text-gold-400 hover:text-pink-700 text-xs tracking-[0.3em] uppercase font-bold inline-flex items-center gap-2 hover:gap-4 transition-all">
                 Ver toda la tienda <span>&rarr;</span>
             </a>
         </div>
@@ -153,7 +153,7 @@
                     <div class="text-gold-400 mb-3 text-lg">
                         {!! str_repeat('&#9733;', $t->rating) !!}
                     </div>
-                    <p class="text-gray-300 mb-6 italic leading-relaxed">"{{ $t->text }}"</p>
+                    <p class="text-gray-700 mb-6 italic leading-relaxed">"{{ $t->text }}"</p>
                     <div class="text-sm">
                         <div class="font-semibold text-gold-400">{{ $t->name }}</div>
                         @if($t->location)<div class="text-gray-500 text-xs uppercase tracking-widest mt-1">{{ $t->location }}</div>@endif
@@ -182,13 +182,13 @@
             <div class="relative z-10 max-w-2xl mx-auto">
                 <p class="text-gold-400 text-xs tracking-[0.4em] uppercase mb-3">Boletin</p>
                 <h2 class="font-heading text-3xl md:text-5xl mb-4 italic">Unete al aquelarre</h2>
-                <p class="text-gray-300 mb-8 leading-relaxed">Recibe rituales semanales, significados de las lunas, horoscopo y acceso prioritario a ediciones limitadas.</p>
+                <p class="text-gray-700 mb-8 leading-relaxed">Recibe rituales semanales, significados de las lunas, horoscopo y acceso prioritario a ediciones limitadas.</p>
                 <form class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
                     <input type="email" required placeholder="Tu correo electronico"
-                           class="flex-1 px-5 py-4 bg-white/10 border border-white/20 rounded-md text-white placeholder:text-white/50 focus:border-gold-400 focus:outline-none backdrop-blur-sm">
+                           class="flex-1 px-5 py-4 bg-white/10 border border-white/20 rounded-md text-gray-900 placeholder:text-gray-900/50 focus:border-gold-400 focus:outline-none backdrop-blur-sm">
                     <button type="submit" class="btn-mystic whitespace-nowrap">Suscribirse</button>
                 </form>
-                <p class="text-[10px] uppercase tracking-widest mt-5 text-white/40">Al suscribirte aceptas nuestra politica de privacidad</p>
+                <p class="text-[10px] uppercase tracking-widest mt-5 text-gray-900/40">Al suscribirte aceptas nuestra politica de privacidad</p>
             </div>
         </div>
     </div>
@@ -210,7 +210,7 @@
                         {{ optional($post->published_at)->format('d M, Y') ?? $post->created_at->format('d M, Y') }}
                     </span>
                     <h3 class="font-heading text-2xl mb-4 group-hover:text-gold-400 transition-colors">{{ $post->title }}</h3>
-                    <p class="text-gray-400 mb-6 line-clamp-3 leading-relaxed">{{ $post->excerpt ?? strip_tags($post->content) }}</p>
+                    <p class="text-gray-600 mb-6 line-clamp-3 leading-relaxed">{{ $post->excerpt ?? strip_tags($post->content) }}</p>
                     <a href="#" class="inline-flex items-center gap-2 font-bold uppercase text-[10px] tracking-[0.3em] text-gold-400 group-hover:gap-4 transition-all">
                         Leer mas <span>&rarr;</span>
                     </a>

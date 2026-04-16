@@ -53,7 +53,7 @@
             @endif
 
             @if($desc)
-                <div class="prose prose-invert max-w-none text-gray-300 mb-8">
+                <div class="prose prose-invert max-w-none text-gray-700 mb-8">
                     {!! $desc !!}
                 </div>
             @endif
@@ -68,7 +68,7 @@
                 </a>
             </div>
 
-            <div class="border-t border-gold-500/10 pt-6 text-sm text-gray-400 space-y-2">
+            <div class="border-t border-gold-500/10 pt-6 text-sm text-gray-600 space-y-2">
                 <p>SKU: {{ $variant?->sku }}</p>
                 <p>Envio gratis a partir de 50€ a peninsula</p>
             </div>

@@ -14,11 +14,11 @@
             <div class="space-y-6 order-2 lg:order-1">
                 <span class="text-gold-400 text-xs tracking-[0.3em] uppercase block">Sobre mi</span>
                 <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl italic text-shimmer leading-[1.05]">Soy Maria Jose</h1>
-                <p class="font-heading text-xl md:text-2xl italic text-gold-300/90 max-w-md">Tarotista profesional y guia espiritual</p>
-                <p class="text-gray-300 leading-relaxed max-w-lg">
+                <p class="font-heading text-xl md:text-2xl italic text-pink-700/90 max-w-md">Tarotista profesional y guia espiritual</p>
+                <p class="text-gray-700 leading-relaxed max-w-lg">
                     Si has llegado a mi no es por casualidad sino por <em class="text-gold-400 not-italic">&laquo;causalidad&raquo;</em>. Creo firmemente en las conexiones energeticas y el tarot no es unicamente una herramienta de prediccion, sino una conexion profunda con el alma y la energia, que nos permite analizar, transformar y tomar decisiones con una vision amplia de la situacion que estas viviendo.
                 </p>
-                <p class="text-gray-300 leading-relaxed max-w-lg">
+                <p class="text-gray-700 leading-relaxed max-w-lg">
                     Ademas del tarot evolutivo tambien utilizo oraculos, lectura con bola de cristal y pendulo, y completamos con trabajos energeticos, rituales de alta magia con mucha fuerza que te llevaran a cumplir tus deseos.
                 </p>
                 <div class="pt-4 flex flex-wrap gap-4">

@@ -8,14 +8,14 @@
     </div>
 
     <div class="bg-mystic-800/50 border border-gold-500/10 rounded-xl p-8 space-y-6">
-        <p class="text-gray-300">
+        <p class="text-gray-700">
             Para consultas rapidas o reservar una lectura, el canal mas agil es WhatsApp:
         </p>
         <a href="https://wa.me/34695619087" target="_blank" rel="noopener" class="btn-mystic w-full">
             Escribir por WhatsApp
         </a>
         <div class="text-center text-gray-500">o por email</div>
-        <a href="mailto:hechizosdemaria@gmail.com" class="block text-center text-gold-400 hover:text-gold-300 text-lg">
+        <a href="mailto:hechizosdemaria@gmail.com" class="block text-center text-gold-400 hover:text-pink-700 text-lg">
             hechizosdemaria@gmail.com
         </a>
     </div>

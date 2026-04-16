@@ -12,7 +12,7 @@
     <div class="text-center mb-12">
         <p class="text-gold-400 text-xs tracking-[0.4em] uppercase mb-2">Coleccion</p>
         <h1 class="font-heading text-4xl md:text-5xl text-shimmer">{{ $colName }}</h1>
-        @if($colDesc)<p class="mt-4 text-gray-400 max-w-2xl mx-auto">{{ $colDesc }}</p>@endif
+        @if($colDesc)<p class="mt-4 text-gray-600 max-w-2xl mx-auto">{{ $colDesc }}</p>@endif
     </div>
 
     <p class="text-sm text-gray-500 mb-6">{{ $products->total() }} productos</p>

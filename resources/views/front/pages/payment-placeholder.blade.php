@@ -9,7 +9,7 @@
         <div class="text-4xl font-bold text-gold-400 mb-4">
             {{ number_format($order->total->decimal, 2, ',', '.') }} {{ $order->currency_code === 'EUR' ? '€' : '$' }}
         </div>
-        <p class="text-gray-400">{{ $message }}</p>
+        <p class="text-gray-600">{{ $message }}</p>
     </div>
 
     <div class="flex gap-3 justify-center">

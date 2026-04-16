@@ -10,42 +10,46 @@
     --font-body: 'Lato', ui-sans-serif, system-ui, sans-serif;
     --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif;
 
-    --color-mystic-950: #05060e;
-    --color-mystic-900: #0a0a14;
-    --color-mystic-800: #12121f;
-    --color-mystic-700: #1a1a2e;
-    --color-mystic-600: #242440;
-    --color-mystic-500: #2e2e50;
+    /* Light theme: backgrounds (was mystic oscuro, ahora crema/blanco) */
+    --color-mystic-950: #fdf2f8;
+    --color-mystic-900: #ffffff;
+    --color-mystic-800: #fdf2f8;
+    --color-mystic-700: #fce7f3;
+    --color-mystic-600: #fbcfe8;
+    --color-mystic-500: #f9a8d4;
 
-    --color-gold-300: #e5c97a;
-    --color-gold-400: #d4a853;
-    --color-gold-500: #c9952c;
-    --color-gold-600: #a87a1f;
+    /* Primary brand pink (was gold) */
+    --color-gold-300: #f9a8d4;
+    --color-gold-400: #ec4899;
+    --color-gold-500: #db2777;
+    --color-gold-600: #be185d;
 
-    --color-purple-700: #6b21a8;
-    --color-purple-800: #581c87;
-    --color-purple-900: #3b0764;
+    /* Accent secondary (was purple) */
+    --color-purple-700: #f472b6;
+    --color-purple-800: #fbcfe8;
+    --color-purple-900: #fce7f3;
 }
 
 @layer base {
     html {
-        background-color: var(--color-mystic-900);
+        background-color: #ffffff;
     }
     body {
         font-family: var(--font-body);
-        color: #e5e7eb;
-        background: radial-gradient(ellipse at top, var(--color-purple-900) 0%, var(--color-mystic-900) 50%, var(--color-mystic-950) 100%);
+        color: #1f2937;
+        background: linear-gradient(180deg, #ffffff 0%, #fdf2f8 60%, #ffffff 100%);
         background-attachment: fixed;
         min-height: 100vh;
     }
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-heading);
         letter-spacing: 0.02em;
+        color: #9d174d;
     }
 }
 
 @utility text-shimmer {
-    background: linear-gradient(90deg, var(--color-gold-400), var(--color-gold-300), var(--color-gold-400));
+    background: linear-gradient(90deg, var(--color-gold-500), var(--color-gold-400), var(--color-gold-600));
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -62,5 +66,5 @@
     letter-spacing: 0.05em;
     transition: all 0.2s;
     background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-400));
-    color: var(--color-mystic-900);
+    color: #ffffff;
 }

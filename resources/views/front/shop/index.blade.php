@@ -19,7 +19,7 @@
                         $cName = $c->attribute_data['name']?->getValue() ?? '-';
                     @endphp
                     @if($cSlug)
-                        <li><a href="{{ route('collection', $cSlug) }}" class="text-gray-400 hover:text-gold-400">{{ $cName }}</a></li>
+                        <li><a href="{{ route('collection', $cSlug) }}" class="text-gray-600 hover:text-gold-400">{{ $cName }}</a></li>
                     @endif
                 @endforeach
             </ul>
