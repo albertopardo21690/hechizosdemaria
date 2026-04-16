@@ -251,6 +251,7 @@
             'producto' => ['label' => 'Producto dinámico', 'keys' => ['product_title', 'product_price', 'product_gallery', 'product_description', 'product_add_to_cart', 'breadcrumbs']],
             'coleccion' => ['label' => 'Colección dinámica', 'keys' => ['collection_title', 'collection_products']],
             'formulario' => ['label' => 'Formulario', 'keys' => ['form']],
+            'globales' => ['label' => 'Globales', 'keys' => ['global_ref']],
         ];
     @endphp
     <div x-data="{ open: false, sectionId: null, columnId: null, cat: 'basicos', q: '' }"

@@ -225,6 +225,9 @@ class ThemeTemplateBuilder extends Component
                     ['type' => 'textarea', 'name' => 'mensaje', 'label' => 'Mensaje', 'required' => true, 'placeholder' => ''],
                 ],
             ]],
+            'global_ref' => ['label' => 'Widget global', 'icon' => 'link', 'defaults' => [
+                'template_id' => null,
+            ]],
         ];
     }
 
