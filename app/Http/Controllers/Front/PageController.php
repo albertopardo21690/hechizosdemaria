@@ -13,6 +13,9 @@ class PageController extends Controller
             ->where('status', 'published')
             ->firstOrFail();
 
+        \SEO::setTitle($page->title);
+        \SEO::setDescription($page->excerpt ?: strip_tags((string) $page->content));
+
         return view('front.pages.show', compact('page'));
     }
 }

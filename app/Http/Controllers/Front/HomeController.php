@@ -12,6 +12,17 @@ class HomeController extends Controller
 {
     public function __invoke()
     {
+        \SEO::setTitle('Tarot, rituales y magia blanca');
+        \SEO::setDescription('Lecturas de tarot, rituales personalizados y tienda magica con perfumes arabes, amuletos y cuarzos. Por Maria Jose Gomez, tarotista profesional con 164k+ seguidores.');
+        \SEO::jsonLd()->setType('LocalBusiness');
+        \SEO::jsonLd()->addValue('telephone', '+34 695 619 087');
+        \SEO::jsonLd()->addValue('email', 'hechizosdemaria@gmail.com');
+        \SEO::jsonLd()->addValue('priceRange', '$$');
+        \SEO::jsonLd()->addValue('address', [
+            '@type' => 'PostalAddress',
+            'addressCountry' => 'ES',
+        ]);
+
         $lecturas = $this->productsByCollectionSlug('lecturas', 4);
 
         $destacados = Product::where('status', 'published')

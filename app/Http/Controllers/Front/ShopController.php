@@ -26,6 +26,28 @@ class ShopController extends Controller
             ->with(['variants.prices.currency', 'media', 'collections.urls'])
             ->firstOrFail();
 
+        $name = $product->attribute_data['name']?->getValue() ?? '';
+        $desc = strip_tags($product->attribute_data['description']?->getValue() ?? '');
+        $variant = $product->variants->first();
+        $eurPrice = $variant?->prices->firstWhere('currency.code', 'EUR');
+        $image = $product->getFirstMedia('images');
+
+        \SEO::setTitle($name);
+        \SEO::setDescription($desc ?: $name);
+        if ($image) {
+            \SEO::opengraph()->addImage($image->getUrl('large'));
+        }
+        \SEO::jsonLd()->setType('Product');
+        \SEO::jsonLd()->addValue('sku', $variant?->sku);
+        if ($eurPrice) {
+            \SEO::jsonLd()->addValue('offers', [
+                '@type' => 'Offer',
+                'price' => $eurPrice->price->decimal,
+                'priceCurrency' => 'EUR',
+                'availability' => $variant?->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            ]);
+        }
+
         $related = Product::where('status', 'published')
             ->where('id', '!=', $product->id)
             ->whereHas('collections', fn ($q) => $q->whereIn('lunar_collections.id', $product->collections->pluck('id')))

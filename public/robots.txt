@@ -1,2 +1,10 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /checkout
+Disallow: /carrito
+Disallow: /pagar
+Disallow: /pedido
+Disallow: /livewire
+
+Sitemap: https://hechizosdemaria.com/sitemap.xml
