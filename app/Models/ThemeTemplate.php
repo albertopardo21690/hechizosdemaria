@@ -19,6 +19,8 @@ class ThemeTemplate extends Model
         'footer' => 'Pie',
         'product_single' => 'Ficha de producto',
         'collection_archive' => 'Archivo de colección',
+        'error_404' => 'Página 404',
+        'search_results' => 'Resultados de búsqueda',
         'popup' => 'Popup',
     ];
 

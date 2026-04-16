@@ -16,4 +16,7 @@
     @case('document')<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>@break
     @case('slides')<path stroke-linecap="round" stroke-linejoin="round" d="M8 7v10m8-10v10M4 6h16v12H4V6zm16 3h-2m2 6h-2M6 9h.01M6 15h.01"/>@break
     @case('link')<path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 010 5.656l-3 3a4 4 0 01-5.656-5.656l1.102-1.101m4.588-5.588l1.102-1.101a4 4 0 015.656 5.656l-3 3a4 4 0 01-5.656 0"/>@break
+    @case('accordion')<path stroke-linecap="round" stroke-linejoin="round" d="M5 6h14M5 12h14M5 18h14M9 6v12"/>@break
+    @case('tabs')<path stroke-linecap="round" stroke-linejoin="round" d="M3 8h6V4H3v4zm0 0v12h18V8H9"/>@break
+    @case('clock')<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>@break
 @endswitch

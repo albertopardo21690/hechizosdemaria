@@ -10,6 +10,14 @@
                 <input type="email" wire:model.lazy="{{ $path }}.props.email_to" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="hola@hechizosdemaria.com">
             </label>
             <label>
+                <span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Webhook URL (opcional)</span>
+                <input type="text" wire:model.lazy="{{ $path }}.props.webhook_url" class="w-full border border-gray-300 rounded-md px-3 py-2 font-mono text-xs" placeholder="https://hooks.zapier.com/...">
+            </label>
+            <label>
+                <span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Redirigir a URL tras envío (opcional)</span>
+                <input type="text" wire:model.lazy="{{ $path }}.props.redirect_url" class="w-full border border-gray-300 rounded-md px-3 py-2 font-mono text-xs" placeholder="/gracias">
+            </label>
+            <label>
                 <span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Texto del botón</span>
                 <input type="text" wire:model.lazy="{{ $path }}.props.submit_text" class="w-full border border-gray-300 rounded-md px-3 py-2">
             </label>

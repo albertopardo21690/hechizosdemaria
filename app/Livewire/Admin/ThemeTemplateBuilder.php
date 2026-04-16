@@ -219,6 +219,8 @@ class ThemeTemplateBuilder extends Component
                 'submit_text' => 'Enviar',
                 'success_message' => 'Gracias, te responderemos pronto.',
                 'email_to' => '',
+                'webhook_url' => '',
+                'redirect_url' => '',
                 'fields' => [
                     ['type' => 'text', 'name' => 'nombre', 'label' => 'Nombre', 'required' => true, 'placeholder' => ''],
                     ['type' => 'email', 'name' => 'email', 'label' => 'Email', 'required' => true, 'placeholder' => ''],
@@ -227,6 +229,62 @@ class ThemeTemplateBuilder extends Component
             ]],
             'global_ref' => ['label' => 'Widget global', 'icon' => 'link', 'defaults' => [
                 'template_id' => null,
+            ]],
+            'button' => ['label' => 'Botón', 'icon' => 'cursor', 'defaults' => [
+                'text' => 'Ver más',
+                'url' => '#',
+                'style' => 'solid',
+                'color' => 'pink',
+                'size' => 'md',
+                'align' => 'left',
+                'target_blank' => false,
+                'full_width' => false,
+            ]],
+            'icon_box' => ['label' => 'Caja con icono', 'icon' => 'sparkles', 'defaults' => [
+                'icon' => 'sparkle',
+                'title' => 'Título',
+                'body' => 'Descripción breve del beneficio.',
+                'url' => '',
+                'align' => 'center',
+                'color' => 'pink',
+            ]],
+            'accordion' => ['label' => 'Acordeón / FAQ', 'icon' => 'accordion', 'defaults' => [
+                'items' => [
+                    ['title' => 'Primera pregunta', 'body' => 'Respuesta a la primera pregunta.'],
+                    ['title' => 'Segunda pregunta', 'body' => 'Respuesta a la segunda pregunta.'],
+                ],
+                'open_first' => true,
+            ]],
+            'tabs' => ['label' => 'Pestañas', 'icon' => 'tabs', 'defaults' => [
+                'items' => [
+                    ['label' => 'Tab 1', 'body' => 'Contenido de la primera pestaña.'],
+                    ['label' => 'Tab 2', 'body' => 'Contenido de la segunda pestaña.'],
+                ],
+            ]],
+            'countdown' => ['label' => 'Cuenta atrás', 'icon' => 'clock', 'defaults' => [
+                'due_date' => '',
+                'label_days' => 'Días',
+                'label_hours' => 'Horas',
+                'label_minutes' => 'Minutos',
+                'label_seconds' => 'Segundos',
+                'expire_text' => '¡Finalizado!',
+            ]],
+            'social_icons' => ['label' => 'Iconos sociales', 'icon' => 'chat', 'defaults' => [
+                'icons' => [
+                    ['platform' => 'instagram', 'url' => 'https://instagram.com/hechizosdemaria'],
+                    ['platform' => 'tiktok', 'url' => '#'],
+                    ['platform' => 'youtube', 'url' => '#'],
+                ],
+                'size' => 'md',
+                'style' => 'round',
+                'color' => 'pink',
+                'align' => 'center',
+            ]],
+            'progress_bar' => ['label' => 'Barra de progreso', 'icon' => 'minus', 'defaults' => [
+                'label' => 'Energía ritual',
+                'percent' => 75,
+                'color' => 'pink',
+                'show_percent' => true,
             ]],
         ];
     }
@@ -581,6 +639,60 @@ class ThemeTemplateBuilder extends Component
                 return;
             }
         }
+    }
+
+    public function accordionAddItem(string $widgetId): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w): void {
+            if ($w['type'] === 'accordion') {
+                $w['props']['items'][] = ['title' => 'Nueva pregunta', 'body' => 'Respuesta.'];
+            }
+        });
+    }
+
+    public function accordionRemoveItem(string $widgetId, int $index): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w) use ($index): void {
+            if ($w['type'] === 'accordion') {
+                array_splice($w['props']['items'], $index, 1);
+            }
+        });
+    }
+
+    public function tabsAddItem(string $widgetId): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w): void {
+            if ($w['type'] === 'tabs') {
+                $w['props']['items'][] = ['label' => 'Nueva tab', 'body' => 'Contenido.'];
+            }
+        });
+    }
+
+    public function tabsRemoveItem(string $widgetId, int $index): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w) use ($index): void {
+            if ($w['type'] === 'tabs') {
+                array_splice($w['props']['items'], $index, 1);
+            }
+        });
+    }
+
+    public function socialAddIcon(string $widgetId): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w): void {
+            if ($w['type'] === 'social_icons') {
+                $w['props']['icons'][] = ['platform' => 'instagram', 'url' => '#'];
+            }
+        });
+    }
+
+    public function socialRemoveIcon(string $widgetId, int $index): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w) use ($index): void {
+            if ($w['type'] === 'social_icons') {
+                array_splice($w['props']['icons'], $index, 1);
+            }
+        });
     }
 
     public function carouselAddSlide(string $widgetId): void

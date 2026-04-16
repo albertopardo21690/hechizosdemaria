@@ -7,6 +7,7 @@ use App\Models\FormSubmission;
 use App\Models\Page;
 use App\Models\ThemeTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
@@ -79,10 +80,31 @@ class FormController extends Controller
             }
         }
 
+        $webhookUrl = $widget['props']['webhook_url'] ?? null;
+        if ($webhookUrl && filter_var($webhookUrl, FILTER_VALIDATE_URL)) {
+            try {
+                Http::timeout(5)->post($webhookUrl, [
+                    'form_name' => $formName,
+                    'submission_id' => $submission->id,
+                    'source_url' => $sourceUrl,
+                    'data' => $data,
+                    'email' => $emailFromData,
+                    'submitted_at' => $submission->created_at?->toIso8601String(),
+                ]);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+
         $success = $widget['props']['success_message'] ?? 'Gracias, te responderemos pronto.';
+        $redirectUrl = $widget['props']['redirect_url'] ?? null;
 
         if ($request->wantsJson()) {
-            return response()->json(['ok' => true, 'message' => $success]);
+            return response()->json(['ok' => true, 'message' => $success, 'redirect' => $redirectUrl]);
+        }
+
+        if ($redirectUrl) {
+            return redirect($redirectUrl);
         }
 
         return redirect($sourceUrl ?: url()->previous())->with('form_success.'.$formName, $success);

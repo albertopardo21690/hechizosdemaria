@@ -246,7 +246,8 @@
     {{-- MODAL WIDGET PICKER --}}
     @php
         $widgetCategories = [
-            'basicos' => ['label' => 'Básicos', 'keys' => ['hero', 'heading', 'text', 'image', 'gallery', 'carousel', 'quote', 'cta', 'testimonials', 'products', 'divider', 'spacer', 'raw_html']],
+            'basicos' => ['label' => 'Básicos', 'keys' => ['hero', 'heading', 'text', 'button', 'image', 'gallery', 'carousel', 'quote', 'cta', 'icon_box', 'testimonials', 'products', 'divider', 'spacer', 'raw_html']],
+            'interactivos' => ['label' => 'Interactivos', 'keys' => ['accordion', 'tabs', 'countdown', 'progress_bar', 'social_icons']],
             'cabecera' => ['label' => 'Cabecera / Pie', 'keys' => ['site_logo', 'nav_menu', 'cart_icon', 'search_box']],
             'producto' => ['label' => 'Producto dinámico', 'keys' => ['product_title', 'product_price', 'product_gallery', 'product_description', 'product_add_to_cart', 'breadcrumbs']],
             'coleccion' => ['label' => 'Colección dinámica', 'keys' => ['collection_title', 'collection_products']],
