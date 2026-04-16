@@ -3,6 +3,7 @@
 use App\Http\Controllers\Front\CollectionController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\PageController;
+use App\Http\Controllers\Front\PaymentController;
 use App\Http\Controllers\Front\ShopController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,11 +16,12 @@ Route::get('/coleccion/{slug}', CollectionController::class)->name('collection')
 
 Route::get('/servicio/{slug}', fn (string $slug) => redirect()->route('product', $slug), 301)->name('legacy.product');
 
-Route::get('/carrito', function () {
-    return view('front.pages.cart');
-})->name('cart');
-
+Route::view('/carrito', 'front.pages.cart')->name('cart');
 Route::view('/checkout', 'front.pages.checkout')->name('checkout');
 Route::view('/contacto', 'front.pages.contact')->name('contact');
+
+Route::get('/pagar/{gateway}/{reference}', [PaymentController::class, 'start'])->name('payment.start');
+Route::get('/pedido/{reference}/exito', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/pedido/{reference}/error', [PaymentController::class, 'failure'])->name('payment.failure');
 
 Route::get('/{slug}', PageController::class)->name('page')->where('slug', '[a-z0-9-]+');
