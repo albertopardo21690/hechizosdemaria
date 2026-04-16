@@ -16,7 +16,7 @@ class AdminPanelProvider extends PanelProvider
         LunarPanel::panel(function ($p) use (&$lunarPanel) {
             return $lunarPanel = $p
                 ->default()
-                ->path('admin')
+                ->path('filament')
                 ->brandName('Hechizos de Maria')
                 ->colors([
                     'primary' => Color::Amber,
