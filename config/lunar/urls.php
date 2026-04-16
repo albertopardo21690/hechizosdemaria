@@ -1,7 +1,5 @@
 <?php
 
-use Lunar\Generators\UrlGenerator;
-
 return [
 
     /*
@@ -24,6 +22,6 @@ return [
     | ships with Lunar, which by default will use the name attribute.
     |
     */
-    'generator' => UrlGenerator::class,
+    'generator' => null,
 
 ];

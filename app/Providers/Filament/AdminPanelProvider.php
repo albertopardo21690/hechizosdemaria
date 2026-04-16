@@ -13,7 +13,13 @@ class AdminPanelProvider extends PanelProvider
         $lunarPanel = null;
 
         LunarPanel::panel(function ($p) use (&$lunarPanel) {
-            return $lunarPanel = $p->default()->path('admin');
+            return $lunarPanel = $p
+                ->default()
+                ->path('admin')
+                ->discoverResources(
+                    in: app_path('Filament/Resources'),
+                    for: 'App\\Filament\\Resources'
+                );
         })->register();
 
         return $lunarPanel;
