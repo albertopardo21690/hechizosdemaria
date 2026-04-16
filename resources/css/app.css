@@ -6,6 +6,61 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading: 'Cinzel', ui-serif, Georgia, serif;
+    --font-body: 'Lato', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif;
+
+    --color-mystic-950: #05060e;
+    --color-mystic-900: #0a0a14;
+    --color-mystic-800: #12121f;
+    --color-mystic-700: #1a1a2e;
+    --color-mystic-600: #242440;
+    --color-mystic-500: #2e2e50;
+
+    --color-gold-300: #e5c97a;
+    --color-gold-400: #d4a853;
+    --color-gold-500: #c9952c;
+    --color-gold-600: #a87a1f;
+
+    --color-purple-700: #6b21a8;
+    --color-purple-800: #581c87;
+    --color-purple-900: #3b0764;
+}
+
+@layer base {
+    html {
+        background-color: var(--color-mystic-900);
+    }
+    body {
+        font-family: var(--font-body);
+        color: #e5e7eb;
+        background: radial-gradient(ellipse at top, var(--color-purple-900) 0%, var(--color-mystic-900) 50%, var(--color-mystic-950) 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+        letter-spacing: 0.02em;
+    }
+}
+
+@utility text-shimmer {
+    background: linear-gradient(90deg, var(--color-gold-400), var(--color-gold-300), var(--color-gold-400));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+@utility btn-mystic {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-400));
+    color: var(--color-mystic-900);
 }
