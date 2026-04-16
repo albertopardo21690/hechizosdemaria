@@ -1,4 +1,22 @@
-<div class="grid lg:grid-cols-[260px_1fr] gap-4">
+@php
+    $editingContext = null;
+    foreach ($sections as $__si => $__section) {
+        foreach ($__section['columns'] as $__ci => $__col) {
+            foreach ($__col['widgets'] as $__wi => $__widget) {
+                if ($__widget['id'] === $editingWidgetId) {
+                    $editingContext = [
+                        'widget' => $__widget,
+                        'path' => "sections.{$__si}.columns.{$__ci}.widgets.{$__wi}",
+                        'sectionId' => $__section['id'],
+                        'columnId' => $__col['id'],
+                    ];
+                    break 3;
+                }
+            }
+        }
+    }
+@endphp
+<div class="grid lg:grid-cols-[260px_1fr] gap-4 {{ $editingContext ? 'lg:pr-[400px]' : '' }} transition-[padding] duration-200">
     {{-- LIBRERIA DE SECCIONES --}}
     <aside class="lg:sticky lg:top-24 h-fit bg-white border border-pink-200 rounded-xl p-4">
         <h3 class="font-heading text-sm text-pink-700 uppercase tracking-widest mb-3">Añadir sección</h3>
@@ -103,7 +121,7 @@
                                          data-column-id="{{ $column['id'] }}">
                                     @foreach($column['widgets'] ?? [] as $wi => $widget)
                                         @php $path = "sections.{$si}.columns.{$ci}.widgets.{$wi}"; @endphp
-                                        <div wire:key="widget-{{ $widget['id'] }}" data-widget-id="{{ $widget['id'] }}" class="bg-white border border-pink-200 rounded-md overflow-hidden">
+                                        <div wire:key="widget-{{ $widget['id'] }}" data-widget-id="{{ $widget['id'] }}" class="bg-white border rounded-md overflow-hidden transition {{ $editingWidgetId === $widget['id'] ? 'border-pink-500 ring-2 ring-pink-300' : 'border-pink-200' }}">
                                             <div class="flex items-center justify-between px-3 py-2 bg-pink-50 border-b border-pink-200">
                                                 <div class="flex items-center gap-1.5 min-w-0">
                                                     <button type="button" class="widget-drag-handle cursor-grab active:cursor-grabbing text-pink-600 hover:text-pink-800 shrink-0" title="Arrastrar widget">
@@ -129,11 +147,11 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="p-3">
+                                            <div class="p-3 cursor-pointer hover:bg-pink-50/40" wire:click="editWidget('{{ $widget['id'] }}')">
                                                 @include('admin.pages.builder.blocks.'.$widget['type'], [
                                                     'block' => $widget,
                                                     'path' => $path,
-                                                    'editing' => $editingWidgetId === $widget['id'],
+                                                    'editing' => false,
                                                     'testimonialsList' => $testimonialsList ?? collect(),
                                                     'collectionsList' => $collectionsList ?? collect(),
                                                 ])
@@ -164,4 +182,99 @@
             </div>
         @endif
     </div>
+
+    {{-- PANEL CONTEXTUAL DE EDICION --}}
+    @if($editingContext)
+        @php
+            $w = $editingContext['widget'];
+            $path = $editingContext['path'];
+            $meta = $widgetTypes[$w['type']] ?? ['label' => $w['type'], 'icon' => 'text'];
+        @endphp
+        <div wire:key="editor-panel-{{ $w['id'] }}"
+             class="fixed inset-y-0 right-0 w-full sm:w-[400px] bg-white border-l border-pink-200 shadow-2xl z-40 flex flex-col"
+             x-data="{ tab: 'content' }"
+             @keydown.escape.window="$wire.editWidget(null)">
+            <header class="flex items-center justify-between px-4 py-3 border-b border-pink-200 bg-pink-50 shrink-0">
+                <div class="flex items-center gap-2 min-w-0">
+                    <svg class="w-5 h-5 text-pink-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">@include('admin.pages.builder.icon', ['icon' => $meta['icon']])</svg>
+                    <div class="min-w-0">
+                        <h3 class="font-heading text-pink-700 truncate">{{ $meta['label'] }}</h3>
+                        <p class="text-[10px] uppercase tracking-widest text-gray-500 font-mono truncate">ID: {{ substr($w['id'], 0, 8) }}</p>
+                    </div>
+                </div>
+                <button type="button" wire:click="editWidget(null)" class="w-8 h-8 rounded hover:bg-pink-100 text-gray-600 shrink-0" title="Cerrar panel">
+                    <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </header>
+            <nav class="flex border-b border-pink-200 bg-white shrink-0">
+                <button type="button" @click="tab='content'" :class="tab==='content' ? 'border-pink-500 text-pink-700 bg-pink-50/50' : 'border-transparent text-gray-500 hover:text-pink-600'" class="flex-1 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 transition">Contenido</button>
+                <button type="button" @click="tab='style'" :class="tab==='style' ? 'border-pink-500 text-pink-700 bg-pink-50/50' : 'border-transparent text-gray-500 hover:text-pink-600'" class="flex-1 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 transition">Estilo</button>
+                <button type="button" @click="tab='advanced'" :class="tab==='advanced' ? 'border-pink-500 text-pink-700 bg-pink-50/50' : 'border-transparent text-gray-500 hover:text-pink-600'" class="flex-1 py-3 text-xs uppercase tracking-widest font-semibold border-b-2 transition">Avanzado</button>
+            </nav>
+            <div class="flex-1 overflow-auto">
+                <div x-show="tab==='content'" class="p-4">
+                    @include('admin.pages.builder.blocks.'.$w['type'], [
+                        'block' => $w,
+                        'path' => $path,
+                        'editing' => true,
+                        'testimonialsList' => $testimonialsList ?? collect(),
+                        'collectionsList' => $collectionsList ?? collect(),
+                    ])
+                </div>
+                <div x-show="tab==='style'" x-cloak class="p-4 space-y-4 text-sm">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Margen superior</label>
+                        <select wire:model.lazy="{{ $path }}.style.margin_top" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            <option value="">Por defecto</option>
+                            <option value="none">Sin margen</option>
+                            <option value="sm">Pequeño</option>
+                            <option value="md">Medio</option>
+                            <option value="lg">Grande</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Margen inferior</label>
+                        <select wire:model.lazy="{{ $path }}.style.margin_bottom" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            <option value="">Por defecto</option>
+                            <option value="none">Sin margen</option>
+                            <option value="sm">Pequeño</option>
+                            <option value="md">Medio</option>
+                            <option value="lg">Grande</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Alineación (texto)</label>
+                        <select wire:model.lazy="{{ $path }}.style.text_align" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            <option value="">Por defecto</option>
+                            <option value="left">Izquierda</option>
+                            <option value="center">Centro</option>
+                            <option value="right">Derecha</option>
+                        </select>
+                    </div>
+                    <p class="text-[11px] text-gray-400">Afecta al widget dentro de su columna. Los ajustes de fondo/padding se configuran a nivel de sección.</p>
+                </div>
+                <div x-show="tab==='advanced'" x-cloak class="p-4 space-y-4 text-sm">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Clase CSS adicional</label>
+                        <input type="text" wire:model.lazy="{{ $path }}.advanced.css_class" placeholder="mi-clase-custom otra-clase" class="w-full border border-gray-300 rounded-md px-3 py-2 font-mono text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Oculto en</label>
+                        <div class="flex gap-3 text-xs text-gray-700">
+                            <label class="flex items-center gap-1"><input type="checkbox" wire:model.lazy="{{ $path }}.advanced.hide_mobile" class="accent-pink-500"> Móvil</label>
+                            <label class="flex items-center gap-1"><input type="checkbox" wire:model.lazy="{{ $path }}.advanced.hide_desktop" class="accent-pink-500"> Escritorio</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">ID del widget</label>
+                        <input type="text" readonly value="{{ $w['id'] }}" class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 font-mono text-[11px] text-gray-500">
+                    </div>
+                </div>
+            </div>
+            <footer class="border-t border-pink-200 p-3 bg-pink-50/60 flex items-center justify-between shrink-0">
+                <span class="text-[10px] text-gray-500 uppercase tracking-widest">Cambios guardados automáticamente</span>
+                <button type="button" wire:click="editWidget(null)" class="bg-pink-500 hover:bg-pink-600 text-white text-xs uppercase tracking-widest font-semibold px-4 py-2 rounded-md">Cerrar</button>
+            </footer>
+        </div>
+    @endif
 </div>
