@@ -1,9 +1,12 @@
 <header class="sticky top-0 z-40 backdrop-blur-md bg-mystic-900/80 border-b border-gold-500/20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
-            <a href="{{ route('home') }}" class="flex flex-col">
-                <span class="font-heading text-2xl text-shimmer leading-none">Hechizos</span>
-                <span class="font-heading text-xs tracking-[0.3em] text-gold-400 uppercase">de Maria</span>
+            <a href="{{ route('home') }}" class="flex items-center gap-3">
+                <img src="/images/branding/Logo-Hechizos-de-Maria.png" alt="Hechizos de Maria" class="h-12 w-auto">
+                <div class="hidden sm:flex flex-col leading-none">
+                    <span class="font-heading text-xl text-shimmer">Hechizos</span>
+                    <span class="font-heading text-[10px] tracking-[0.3em] text-gold-400 uppercase">de Maria</span>
+                </div>
             </a>
 
             <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">

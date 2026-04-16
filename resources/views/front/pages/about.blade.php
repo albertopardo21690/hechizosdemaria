@@ -31,14 +31,11 @@
 
             <div class="relative order-1 lg:order-2">
                 <div class="absolute inset-0 bg-gold-400/20 blur-3xl rounded-full"></div>
-                <div class="relative aspect-[4/5] rounded-2xl overflow-hidden border border-gold-500/20 bg-gradient-to-br from-purple-900/60 via-mystic-800 to-mystic-950 shadow-2xl">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <svg class="w-64 h-64 text-gold-400/40 animate-pulse" style="animation-duration:6s" fill="none" stroke="currentColor" stroke-width="0.4" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2l2.39 7.36H22l-6.18 4.49 2.36 7.36L12 16.72 5.82 21.21l2.36-7.36L2 9.36h7.61z"/>
-                        </svg>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-mystic-950 via-transparent to-transparent"></div>
+                <div class="relative aspect-[4/5] rounded-2xl overflow-hidden border border-gold-500/20 shadow-2xl">
+                    <img src="/images/branding/foto-maria-jose-hechizosdemaria-sobre-mi.jpg"
+                         alt="Maria Jose Gomez - Tarotista profesional"
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-mystic-950/70 via-transparent to-transparent"></div>
                     <div class="absolute bottom-6 left-6 right-6 text-center">
                         <span class="text-gold-400 text-xs tracking-[0.4em] uppercase font-heading">Hechizos de Maria</span>
                     </div>
