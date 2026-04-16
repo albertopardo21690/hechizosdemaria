@@ -24,6 +24,44 @@
                 <p class="text-[10px] text-gray-400 mt-1">Si hay varias activas, gana la de mayor prioridad.</p>
             </div>
         </div>
+
+        @if($template->location === 'popup')
+            <hr class="border-pink-200 my-2">
+            <h3 class="font-heading text-pink-700 mb-3">Configuración del popup</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Tipo de activación</label>
+                    <select name="trigger_type" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                        @foreach(\App\Models\ThemeTemplate::TRIGGERS as $k => $label)
+                            <option value="{{ $k }}" @selected(old('trigger_type', $template->trigger_type ?? 'time') === $k)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Valor</label>
+                    <input type="number" name="trigger_value" value="{{ old('trigger_value', $template->trigger_value ?? 5) }}" min="0" max="100000" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                    <p class="text-[10px] text-gray-400 mt-1">Segundos para "tiempo", porcentaje para "scroll", se ignora para los demás.</p>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Frecuencia</label>
+                    <select name="frequency" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                        @foreach(\App\Models\ThemeTemplate::FREQUENCIES as $k => $label)
+                            <option value="{{ $k }}" @selected(old('frequency', $template->frequency ?? 'session') === $k)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Ancho máximo</label>
+                    <select name="max_width" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                        <option value="sm" @selected(old('max_width', $template->max_width) === 'sm')>Pequeño (400px)</option>
+                        <option value="md" @selected(old('max_width', $template->max_width ?? 'md') === 'md')>Medio (600px)</option>
+                        <option value="lg" @selected(old('max_width', $template->max_width) === 'lg')>Grande (800px)</option>
+                        <option value="xl" @selected(old('max_width', $template->max_width) === 'xl')>Extra (1000px)</option>
+                        <option value="full" @selected(old('max_width', $template->max_width) === 'full')>Ancho completo</option>
+                    </select>
+                </div>
+            </div>
+        @endif
     </section>
 
     <aside class="space-y-4">

@@ -19,6 +19,20 @@ class ThemeTemplate extends Model
         'footer' => 'Pie',
         'product_single' => 'Ficha de producto',
         'collection_archive' => 'Archivo de colección',
+        'popup' => 'Popup',
+    ];
+
+    public const TRIGGERS = [
+        'time' => 'Tiempo (segundos)',
+        'scroll' => 'Scroll (% de página)',
+        'exit_intent' => 'Intención de salida',
+        'manual' => 'Manual (trigger con botón)',
+    ];
+
+    public const FREQUENCIES = [
+        'always' => 'Siempre',
+        'session' => 'Una vez por sesión',
+        'once' => 'Una vez por navegador',
     ];
 
     public function hasBlocks(): bool
@@ -38,5 +52,14 @@ class ThemeTemplate extends Model
             ->orderByDesc('priority')
             ->orderByDesc('updated_at')
             ->first();
+    }
+
+    public static function activePopups()
+    {
+        return static::where('location', 'popup')
+            ->where('is_active', true)
+            ->orderByDesc('priority')
+            ->orderByDesc('updated_at')
+            ->get();
     }
 }

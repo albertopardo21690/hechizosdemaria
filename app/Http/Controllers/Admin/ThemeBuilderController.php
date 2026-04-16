@@ -44,6 +44,10 @@ class ThemeBuilderController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'priority' => 'nullable|integer|min:0|max:100',
+            'trigger_type' => 'nullable|in:time,scroll,exit_intent,manual',
+            'trigger_value' => 'nullable|integer|min:0|max:100000',
+            'frequency' => 'nullable|in:always,session,once',
+            'max_width' => 'nullable|in:sm,md,lg,xl,full',
         ]);
         $themeTemplate->update($data);
 
