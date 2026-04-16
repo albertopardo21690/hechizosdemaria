@@ -216,8 +216,10 @@
                                     </div>
 
                                     {{-- widget picker --}}
-                                    <div x-data="{ open: false }" class="relative mt-auto pt-2 space-y-1">
-                                        <button type="button" @click="open = !open" class="w-full border-2 border-dashed border-pink-300 text-pink-600 py-2 rounded-md text-xs hover:bg-pink-50 uppercase tracking-widest font-semibold">
+                                    <div class="mt-auto pt-2 space-y-1">
+                                        <button type="button"
+                                                @click="$dispatch('open-widget-picker', { sectionId: '{{ $section['id'] }}', columnId: '{{ $column['id'] }}' })"
+                                                class="w-full border-2 border-dashed border-pink-300 text-pink-600 py-2 rounded-md text-xs hover:bg-pink-50 uppercase tracking-widest font-semibold">
                                             + Widget
                                         </button>
                                         <template x-if="$store.clipboard.kind === 'widget'">
@@ -225,14 +227,6 @@
                                                 Pegar widget
                                             </button>
                                         </template>
-                                        <div x-show="open" x-on:click.outside="open = false" x-transition.opacity x-cloak class="absolute z-20 left-0 right-0 mt-1 bg-white border border-pink-200 rounded-md shadow-lg p-2 grid grid-cols-2 gap-1 max-h-72 overflow-auto">
-                                            @foreach($widgetTypes as $type => $meta)
-                                                <button type="button" wire:click="addWidget('{{ $section['id'] }}', '{{ $column['id'] }}', '{{ $type }}')" @click="open = false" class="flex items-center gap-1 p-2 rounded text-left text-xs hover:bg-pink-50">
-                                                    <svg class="w-4 h-4 text-pink-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">@include('admin.pages.builder.icon', ['icon' => $meta['icon']])</svg>
-                                                    <span class="truncate">{{ $meta['label'] }}</span>
-                                                </button>
-                                            @endforeach
-                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -246,6 +240,78 @@
                 </button>
             </template>
         @endif
+        </div>
+    </div>
+
+    {{-- MODAL WIDGET PICKER --}}
+    @php
+        $widgetCategories = [
+            'basicos' => ['label' => 'Básicos', 'keys' => ['hero', 'heading', 'text', 'image', 'gallery', 'quote', 'cta', 'testimonials', 'products', 'divider', 'spacer', 'raw_html']],
+            'cabecera' => ['label' => 'Cabecera / Pie', 'keys' => ['site_logo', 'nav_menu', 'cart_icon', 'search_box']],
+            'producto' => ['label' => 'Producto dinámico', 'keys' => ['product_title', 'product_price', 'product_gallery', 'product_description', 'product_add_to_cart', 'breadcrumbs']],
+            'coleccion' => ['label' => 'Colección dinámica', 'keys' => ['collection_title', 'collection_products']],
+            'formulario' => ['label' => 'Formulario', 'keys' => ['form']],
+        ];
+    @endphp
+    <div x-data="{ open: false, sectionId: null, columnId: null, cat: 'basicos', q: '' }"
+         @open-widget-picker.window="open = true; sectionId = $event.detail.sectionId; columnId = $event.detail.columnId; cat = 'basicos'; q = ''; $nextTick(() => { $refs.qInput && $refs.qInput.focus() })"
+         @keydown.escape.window="open = false"
+         x-show="open" x-cloak
+         class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+         @click.self="open = false">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
+            <header class="flex items-center justify-between px-5 py-3 border-b border-pink-200 bg-pink-50 shrink-0">
+                <h3 class="font-heading text-lg text-pink-700">Añadir widget</h3>
+                <button type="button" @click="open = false" class="text-gray-500 hover:text-gray-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </header>
+            <div class="px-5 py-3 border-b border-pink-200 flex items-center gap-3 shrink-0 flex-wrap">
+                <div class="flex items-center gap-1 flex-wrap">
+                    @foreach($widgetCategories as $catKey => $catMeta)
+                        <button type="button" @click="cat = '{{ $catKey }}'; q = ''"
+                                :class="cat === '{{ $catKey }}' ? 'bg-pink-100 text-pink-700' : 'text-gray-500 hover:text-pink-600'"
+                                class="px-3 py-1.5 rounded text-xs uppercase tracking-widest font-semibold transition">
+                            {{ $catMeta['label'] }}
+                        </button>
+                    @endforeach
+                </div>
+                <div class="flex-1 min-w-[180px]">
+                    <input type="text" x-model="q" x-ref="qInput" placeholder="Buscar widget..." class="w-full border border-pink-200 rounded-md px-3 py-1.5 text-sm focus:border-pink-500 focus:outline-none">
+                </div>
+            </div>
+            <div class="flex-1 overflow-auto p-5">
+                @foreach($widgetCategories as $catKey => $catMeta)
+                    <div x-show="cat === '{{ $catKey }}' && q === ''" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        @foreach($catMeta['keys'] as $type)
+                            @if(isset($widgetTypes[$type]))
+                                @php $meta = $widgetTypes[$type]; @endphp
+                                <button type="button"
+                                        @click="$wire.addWidget(sectionId, columnId, '{{ $type }}'); open = false"
+                                        class="group flex flex-col items-center gap-2 p-4 rounded-lg border border-pink-200 hover:border-pink-500 hover:bg-pink-50 transition text-center">
+                                    <svg class="w-8 h-8 text-pink-400 group-hover:text-pink-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">@include('admin.pages.builder.icon', ['icon' => $meta['icon']])</svg>
+                                    <span class="text-sm font-semibold text-gray-700 group-hover:text-pink-700">{{ $meta['label'] }}</span>
+                                </button>
+                            @endif
+                        @endforeach
+                    </div>
+                @endforeach
+                {{-- Búsqueda global --}}
+                <div x-show="q !== ''" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                    @foreach($widgetTypes as $type => $meta)
+                        <button type="button"
+                                x-show="'{{ \Illuminate\Support\Str::lower($meta['label']) }}'.includes(q.toLowerCase())"
+                                @click="$wire.addWidget(sectionId, columnId, '{{ $type }}'); open = false"
+                                class="group flex flex-col items-center gap-2 p-4 rounded-lg border border-pink-200 hover:border-pink-500 hover:bg-pink-50 transition text-center">
+                            <svg class="w-8 h-8 text-pink-400 group-hover:text-pink-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">@include('admin.pages.builder.icon', ['icon' => $meta['icon']])</svg>
+                            <span class="text-sm font-semibold text-gray-700 group-hover:text-pink-700">{{ $meta['label'] }}</span>
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+            <footer class="px-5 py-3 bg-pink-50/60 border-t border-pink-200 text-[10px] text-gray-500 shrink-0">
+                Tip: arrastra widgets entre columnas una vez añadidos.
+            </footer>
         </div>
     </div>
 
