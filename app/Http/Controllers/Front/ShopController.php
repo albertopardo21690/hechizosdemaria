@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\ThemeTemplate;
 use Lunar\Models\Collection;
 use Lunar\Models\Product;
 
@@ -56,6 +57,8 @@ class ShopController extends Controller
             ->take(4)
             ->get();
 
-        return view('front.shop.product', compact('product', 'related'));
+        $productTemplate = ThemeTemplate::activeFor('product_single');
+
+        return view('front.shop.product', compact('product', 'related', 'productTemplate'));
     }
 }

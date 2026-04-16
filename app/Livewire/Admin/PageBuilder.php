@@ -176,6 +176,34 @@ class PageBuilder extends Component
                 'placeholder' => 'Buscar...',
                 'action' => '/tienda',
             ]],
+            'product_title' => ['label' => 'Titulo del producto', 'icon' => 'h1', 'defaults' => [
+                'tag' => 'h1',
+                'align' => 'left',
+            ]],
+            'product_price' => ['label' => 'Precio del producto', 'icon' => 'tag', 'defaults' => [
+                'size' => 'lg',
+                'align' => 'left',
+            ]],
+            'product_gallery' => ['label' => 'Galeria del producto', 'icon' => 'image', 'defaults' => [
+                'layout' => 'stacked',
+            ]],
+            'product_description' => ['label' => 'Descripcion del producto', 'icon' => 'text', 'defaults' => []],
+            'product_add_to_cart' => ['label' => 'Anadir al carrito', 'icon' => 'cart', 'defaults' => [
+                'show_quantity' => true,
+                'button_text' => 'Anadir al carrito',
+            ]],
+            'breadcrumbs' => ['label' => 'Migas de pan', 'icon' => 'grid', 'defaults' => [
+                'separator' => '/',
+            ]],
+            'collection_products' => ['label' => 'Productos de la coleccion', 'icon' => 'tag', 'defaults' => [
+                'per_row' => 4,
+                'show_filters' => false,
+                'limit' => 24,
+            ]],
+            'collection_title' => ['label' => 'Titulo de la coleccion', 'icon' => 'h1', 'defaults' => [
+                'tag' => 'h1',
+                'align' => 'center',
+            ]],
         ];
     }
 

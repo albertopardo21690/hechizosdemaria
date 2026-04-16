@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\ThemeTemplate;
 use Lunar\Models\Collection;
 
 class CollectionController extends Controller
@@ -20,6 +21,8 @@ class CollectionController extends Controller
             ->where('status', 'published')
             ->paginate(24);
 
-        return view('front.shop.collection', compact('collection', 'products'));
+        $collectionTemplate = ThemeTemplate::activeFor('collection_archive');
+
+        return view('front.shop.collection', compact('collection', 'products', 'collectionTemplate'));
     }
 }

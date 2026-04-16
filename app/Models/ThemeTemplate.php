@@ -17,6 +17,8 @@ class ThemeTemplate extends Model
     public const LOCATIONS = [
         'header' => 'Cabecera',
         'footer' => 'Pie',
+        'product_single' => 'Ficha de producto',
+        'collection_archive' => 'Archivo de colección',
     ];
 
     public function hasBlocks(): bool

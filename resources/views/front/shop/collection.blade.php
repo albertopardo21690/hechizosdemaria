@@ -8,6 +8,11 @@
 @section('title', $colName)
 
 @section('content')
+@if(! empty($collectionTemplate) && $collectionTemplate->hasBlocks())
+    @foreach($collectionTemplate->sectionsNormalized() as $section)
+        @include('front.sections.wrapper', ['section' => $section, 'collection' => $collection, 'products' => $products])
+    @endforeach
+@else
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-12">
         <p class="text-gold-400 text-xs tracking-[0.4em] uppercase mb-2">Coleccion</p>
@@ -25,4 +30,5 @@
     </div>
     <div class="mt-10">{{ $products->links() }}</div>
 </section>
+@endif
 @endsection

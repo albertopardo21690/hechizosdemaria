@@ -13,6 +13,11 @@
 @section('meta_description', strip_tags($desc))
 
 @section('content')
+@if(! empty($productTemplate) && $productTemplate->hasBlocks())
+    @foreach($productTemplate->sectionsNormalized() as $section)
+        @include('front.sections.wrapper', ['section' => $section, 'product' => $product])
+    @endforeach
+@else
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="grid lg:grid-cols-2 gap-12">
 
@@ -86,4 +91,5 @@
     </div>
     @endif
 </section>
+@endif
 @endsection
