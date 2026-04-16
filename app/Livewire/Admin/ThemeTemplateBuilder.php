@@ -203,6 +203,17 @@ class ThemeTemplateBuilder extends Component
                 'tag' => 'h1',
                 'align' => 'center',
             ]],
+            'carousel' => ['label' => 'Carrusel / Slider', 'icon' => 'slides', 'defaults' => [
+                'slides' => [
+                    ['image' => '', 'heading' => 'Slide 1', 'subheading' => '', 'cta_text' => '', 'cta_url' => ''],
+                    ['image' => '', 'heading' => 'Slide 2', 'subheading' => '', 'cta_text' => '', 'cta_url' => ''],
+                ],
+                'autoplay' => true,
+                'interval' => 5,
+                'arrows' => true,
+                'dots' => true,
+                'height' => 'md',
+            ]],
             'form' => ['label' => 'Formulario', 'icon' => 'document', 'defaults' => [
                 'form_name' => 'contacto',
                 'submit_text' => 'Enviar',
@@ -567,6 +578,24 @@ class ThemeTemplateBuilder extends Component
                 return;
             }
         }
+    }
+
+    public function carouselAddSlide(string $widgetId): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w): void {
+            if ($w['type'] === 'carousel') {
+                $w['props']['slides'][] = ['image' => '', 'heading' => '', 'subheading' => '', 'cta_text' => '', 'cta_url' => ''];
+            }
+        });
+    }
+
+    public function carouselRemoveSlide(string $widgetId, int $index): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w) use ($index): void {
+            if ($w['type'] === 'carousel') {
+                array_splice($w['props']['slides'], $index, 1);
+            }
+        });
     }
 
     public function formAddField(string $widgetId): void
