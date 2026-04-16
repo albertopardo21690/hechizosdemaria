@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Page;
+use App\Models\PageTemplate;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -15,6 +16,10 @@ class PageBuilder extends Component
     public ?string $editingWidgetId = null;
 
     public ?string $editingSectionId = null;
+
+    public ?string $savingTemplateSectionId = null;
+
+    public string $newTemplateName = '';
 
     public function mount(Page $page): void
     {
@@ -383,6 +388,68 @@ class PageBuilder extends Component
         $this->editingSectionId = null;
     }
 
+    public function openSaveTemplate(string $sectionId): void
+    {
+        $this->savingTemplateSectionId = $sectionId;
+        $this->newTemplateName = '';
+    }
+
+    public function cancelSaveTemplate(): void
+    {
+        $this->savingTemplateSectionId = null;
+        $this->newTemplateName = '';
+    }
+
+    public function saveAsTemplate(): void
+    {
+        if (! $this->savingTemplateSectionId || trim($this->newTemplateName) === '') {
+            return;
+        }
+        $section = null;
+        foreach ($this->sections as $s) {
+            if ($s['id'] === $this->savingTemplateSectionId) {
+                $section = $s;
+                break;
+            }
+        }
+        if (! $section) {
+            $this->cancelSaveTemplate();
+
+            return;
+        }
+
+        PageTemplate::create([
+            'name' => trim($this->newTemplateName),
+            'kind' => 'section',
+            'payload' => $section,
+        ]);
+
+        $this->cancelSaveTemplate();
+    }
+
+    public function insertTemplate(int $templateId): void
+    {
+        $template = PageTemplate::find($templateId);
+        if (! $template) {
+            return;
+        }
+        $section = $template->payload;
+        $section['id'] = (string) Str::uuid();
+        foreach ($section['columns'] ?? [] as $ci => $col) {
+            $section['columns'][$ci]['id'] = (string) Str::uuid();
+            foreach ($col['widgets'] ?? [] as $wi => $w) {
+                $section['columns'][$ci]['widgets'][$wi]['id'] = (string) Str::uuid();
+            }
+        }
+        $this->sections[] = $section;
+        $this->persist();
+    }
+
+    public function deleteTemplate(int $templateId): void
+    {
+        PageTemplate::where('id', $templateId)->delete();
+    }
+
     public function reorderSections(array $orderedIds): void
     {
         $bySource = [];
@@ -502,6 +569,7 @@ class PageBuilder extends Component
         return view('livewire.admin.page-builder', [
             'widgetTypes' => self::widgetTypes(),
             'sectionLayouts' => self::sectionLayouts(),
+            'templatesList' => PageTemplate::where('kind', 'section')->orderBy('name')->get(['id', 'name']),
             'testimonialsList' => \App\Models\Testimonial::orderByDesc('featured')->orderBy('sort')->get(['id', 'name', 'text']),
             'collectionsList' => \Lunar\Models\Collection::with('urls')->get()->map(fn ($c) => (object) [
                 'id' => $c->id,
