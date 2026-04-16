@@ -33,8 +33,8 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Descripción</label>
-                    <textarea name="description" rows="8" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none">{{ old('description', $desc) }}</textarea>
-                    <p class="text-xs text-gray-500 mt-1">Se muestra en la ficha del producto. Permite HTML.</p>
+                    <textarea name="description" rows="12" data-rich-editor class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none">{!! old('description', $desc) !!}</textarea>
+                    <p class="text-xs text-gray-500 mt-1">Editor con formato: negrita, listas, enlaces, encabezados. Limpia automáticamente HTML pegado desde Word/Google Docs.</p>
                 </div>
             </div>
         </section>

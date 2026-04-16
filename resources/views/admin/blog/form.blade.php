@@ -22,7 +22,7 @@
             </div>
             <div>
                 <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Contenido</label>
-                <textarea name="content" rows="18" class="w-full border border-gray-300 rounded-md px-3 py-2 font-mono text-sm focus:border-pink-500 focus:outline-none">{{ old('content', $post?->content) }}</textarea>
+                <textarea name="content" rows="18" data-rich-editor class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none">{!! old('content', $post?->content) !!}</textarea>
             </div>
         </section>
     </div>

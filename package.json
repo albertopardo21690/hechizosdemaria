@@ -3,8 +3,10 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "prepare:tinymce": "mkdir -p public/vendor && cp -R node_modules/tinymce public/vendor/",
+        "postinstall": "npm run prepare:tinymce",
+        "build": "npm run prepare:tinymce && vite build",
+        "dev": "npm run prepare:tinymce && vite"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
@@ -15,6 +17,7 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
-        "sortablejs": "^1.15.7"
+        "sortablejs": "^1.15.7",
+        "tinymce": "^6.8.6"
     }
 }
