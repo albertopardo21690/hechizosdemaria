@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuth;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BrandingController;
 use App\Http\Controllers\Admin\CollectionController as AdminCollectionController;
+use App\Http\Controllers\Admin\CustomFontController as AdminCustomFontController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FormSubmissionController as AdminFormSubmissionController;
@@ -77,6 +78,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('form-submissions', [AdminFormSubmissionController::class, 'index'])->name('form-submissions.index');
         Route::get('form-submissions/{submission}', [AdminFormSubmissionController::class, 'show'])->name('form-submissions.show');
         Route::delete('form-submissions/{submission}', [AdminFormSubmissionController::class, 'destroy'])->name('form-submissions.destroy');
+
+        // Custom fonts
+        Route::get('custom-fonts', [AdminCustomFontController::class, 'index'])->name('custom-fonts.index');
+        Route::post('custom-fonts', [AdminCustomFontController::class, 'store'])->name('custom-fonts.store');
+        Route::delete('custom-fonts/{customFont}', [AdminCustomFontController::class, 'destroy'])->name('custom-fonts.destroy');
 
         // Theme Builder
         Route::get('theme-builder', [AdminThemeBuilderController::class, 'index'])->name('theme-builder.index');

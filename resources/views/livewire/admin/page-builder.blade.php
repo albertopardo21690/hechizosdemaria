@@ -440,6 +440,19 @@
                             <option value="right">Derecha</option>
                         </select>
                     </div>
+                    @php $customFonts = \App\Models\CustomFont::orderBy('family_name')->get(['name','family_name'])->unique('family_name')->values(); @endphp
+                    @if($customFonts->count())
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Tipografía personalizada</label>
+                            <select wire:model.lazy="{{ $path }}.style.font_family" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                                <option value="">Por defecto</option>
+                                @foreach($customFonts as $cf)
+                                    <option value="{{ $cf->family_name }}">{{ $cf->name }} ({{ $cf->family_name }})</option>
+                                @endforeach
+                            </select>
+                            <p class="text-[11px] text-gray-400 mt-1">Solo se aplica al contenedor del widget. Puede requerir !important en CSS propio para superar reglas del tema.</p>
+                        </div>
+                    @endif
                     <p class="text-[11px] text-gray-400">Afecta al widget dentro de su columna. Los ajustes de fondo/padding se configuran a nivel de sección.</p>
                 </div>
                 <div x-show="tab==='advanced'" x-cloak class="p-4 space-y-4 text-sm">

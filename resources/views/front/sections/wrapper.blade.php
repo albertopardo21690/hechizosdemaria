@@ -59,6 +59,13 @@
             $classes[] = $advanced['css_class'];
         }
         $cls = trim(implode(' ', array_filter($classes)));
+        $inlineStyle = '';
+        if (! empty($style['font_family'])) {
+            $inlineStyle .= "font-family: '".addslashes($style['font_family'])."', sans-serif;";
+        }
+        if ($inlineStyle) {
+            $attrs .= ' style="'.htmlspecialchars($inlineStyle).'"';
+        }
 
         return ['classes' => $cls, 'attrs' => $attrs];
     };
