@@ -7,6 +7,10 @@ use App\Models\Page;
 
 class PageController extends Controller
 {
+    protected array $customTemplates = [
+        'sobre-mi' => 'front.pages.about',
+    ];
+
     public function __invoke(string $slug)
     {
         $page = Page::where('slug', $slug)
@@ -16,6 +20,8 @@ class PageController extends Controller
         \SEO::setTitle($page->title);
         \SEO::setDescription($page->excerpt ?: strip_tags((string) $page->content));
 
-        return view('front.pages.show', compact('page'));
+        $view = $this->customTemplates[$slug] ?? 'front.pages.show';
+
+        return view($view, compact('page'));
     }
 }
