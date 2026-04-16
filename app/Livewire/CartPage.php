@@ -27,7 +27,6 @@ class CartPage extends Component
     public function render()
     {
         $cart = CartSession::current();
-        $cart?->load('lines.purchasable.product.media');
 
         return view('livewire.cart-page', [
             'cart' => $cart,
