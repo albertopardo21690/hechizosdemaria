@@ -46,32 +46,61 @@
                         </div>
                         <div class="text-right">
                             <p class="text-gold-400 font-bold">
-                                {{ number_format($line->subTotal->decimal ?? 0, 2, ',', '.') }} €
+                                {{ number_format(($line->subTotal?->decimal ?? $line->unitPrice?->decimal * $line->quantity) ?? 0, 2, ',', '.') }} €
                             </p>
+                            @if(($line->unitPrice?->decimal ?? 0) > 0 && $line->quantity > 1)
+                                <p class="text-xs text-gray-500 mt-1">{{ number_format($line->unitPrice->decimal, 2, ',', '.') }} € / ud</p>
+                            @endif
                         </div>
                     </div>
                 @endforeach
             </div>
 
+            @php
+                $sub = $cart->subTotal?->decimal ?? 0;
+                $tax = $cart->taxTotal?->decimal ?? 0;
+                $total = $cart->total?->decimal ?? 0;
+                $freeShipping = $sub >= 50;
+                $shipping = $freeShipping ? 0 : 4.90;
+            @endphp
             <aside class="bg-mystic-800/50 border border-gold-500/10 rounded-2xl p-6 h-fit lg:sticky lg:top-24">
                 <h2 class="font-heading text-xl mb-5 text-gold-400">Resumen</h2>
                 <dl class="space-y-2 text-sm border-b border-white/10 pb-4 mb-4">
                     <div class="flex justify-between">
                         <dt class="text-gray-400">Subtotal</dt>
-                        <dd>{{ number_format($cart->subTotal->decimal ?? 0, 2, ',', '.') }} €</dd>
+                        <dd>{{ number_format($sub, 2, ',', '.') }} €</dd>
                     </div>
+                    @if($tax > 0)
+                    <div class="flex justify-between">
+                        <dt class="text-gray-400">IVA (21%)</dt>
+                        <dd>{{ number_format($tax, 2, ',', '.') }} €</dd>
+                    </div>
+                    @endif
                     <div class="flex justify-between">
                         <dt class="text-gray-400">Envio</dt>
-                        <dd class="text-gold-400/80 text-xs uppercase tracking-widest">Calculado en checkout</dd>
+                        <dd>
+                            @if($freeShipping)
+                                <span class="text-green-400 font-semibold">Gratis</span>
+                            @else
+                                {{ number_format($shipping, 2, ',', '.') }} €
+                            @endif
+                        </dd>
                     </div>
                 </dl>
                 <div class="flex justify-between items-baseline mb-6">
                     <span class="font-heading text-lg">Total</span>
-                    <span class="text-2xl font-bold text-gold-400">{{ number_format($cart->total->decimal ?? 0, 2, ',', '.') }} €</span>
+                    <span class="text-2xl font-bold text-gold-400">{{ number_format($total + $shipping, 2, ',', '.') }} €</span>
                 </div>
+
+                @if(!$freeShipping)
+                    <div class="mb-4 p-3 bg-gold-400/10 border border-gold-400/30 rounded-md text-xs text-gold-300">
+                        Anade {{ number_format(50 - $sub, 2, ',', '.') }} € mas para envio gratis
+                    </div>
+                @endif
+
                 <a href="{{ route('checkout') }}" class="btn-mystic w-full">Finalizar compra</a>
                 <a href="{{ route('shop') }}" class="block text-center mt-3 text-gold-400/80 hover:text-gold-300 text-sm">Seguir comprando</a>
-                <p class="text-xs text-gold-400/60 text-center mt-6 uppercase tracking-widest">Envio gratis desde 50€</p>
+                <p class="text-xs text-gold-400/60 text-center mt-6 uppercase tracking-widest">Pago seguro</p>
             </aside>
         </div>
     @endif

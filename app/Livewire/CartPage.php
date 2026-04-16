@@ -27,10 +27,11 @@ class CartPage extends Component
     public function render()
     {
         $cart = CartSession::current();
+        $cart?->load('lines.purchasable.product.media');
 
         return view('livewire.cart-page', [
             'cart' => $cart,
-            'lines' => $cart?->lines()->with('purchasable.product.media')->get() ?? collect(),
+            'lines' => $cart?->lines ?? collect(),
         ]);
     }
 }
