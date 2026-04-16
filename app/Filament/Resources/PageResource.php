@@ -25,7 +25,9 @@ class PageResource extends Resource
 
     protected static ?string $modelLabel = 'Pagina';
 
-    protected static ?int $navigationSort = 50;
+    protected static ?string $navigationGroup = 'Contenido';
+
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {
