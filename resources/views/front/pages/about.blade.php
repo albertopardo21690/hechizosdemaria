@@ -12,11 +12,14 @@
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="space-y-6 order-2 lg:order-1">
-                <span class="text-gold-400 text-xs tracking-[0.3em] uppercase block">Conoceme</span>
+                <span class="text-gold-400 text-xs tracking-[0.3em] uppercase block">Sobre mi</span>
                 <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl italic text-shimmer leading-[1.05]">Soy Maria Jose</h1>
-                <p class="font-heading text-xl md:text-2xl italic text-gold-300/90 max-w-md">Tarotista profesional, astrologa, ritualista y escritora</p>
+                <p class="font-heading text-xl md:text-2xl italic text-gold-300/90 max-w-md">Tarotista profesional y guia espiritual</p>
                 <p class="text-gray-300 leading-relaxed max-w-lg">
-                    Si has llegado a mi no es por casualidad sino por <em class="text-gold-400 not-italic">&laquo;causalidad&raquo;</em>. Creo firmemente en las conexiones energeticas y el tarot no es unicamente una herramienta de prediccion, sino una conexion profunda con el alma y la energia, que nos permite analizar, transformar y tomar decisiones con vision amplia.
+                    Si has llegado a mi no es por casualidad sino por <em class="text-gold-400 not-italic">&laquo;causalidad&raquo;</em>. Creo firmemente en las conexiones energeticas y el tarot no es unicamente una herramienta de prediccion, sino una conexion profunda con el alma y la energia, que nos permite analizar, transformar y tomar decisiones con una vision amplia de la situacion que estas viviendo.
+                </p>
+                <p class="text-gray-300 leading-relaxed max-w-lg">
+                    Ademas del tarot evolutivo tambien utilizo oraculos, lectura con bola de cristal y pendulo, y completamos con trabajos energeticos, rituales de alta magia con mucha fuerza que te llevaran a cumplir tus deseos.
                 </p>
                 <div class="pt-4 flex flex-wrap gap-4">
                     <a href="{{ route('collection', 'lecturas') }}" class="btn-mystic">Reserva tu lectura</a>
@@ -53,7 +56,7 @@
             <h2 class="font-heading text-3xl md:text-4xl">Lo que soy</h2>
             <div class="w-24 h-px bg-gold-400 mx-auto mt-4"></div>
         </div>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div class="border border-gold-500/20 p-8 rounded-xl text-center space-y-3 bg-mystic-800/30 hover:border-gold-400/60 transition">
                 <svg class="w-10 h-10 mx-auto text-gold-400" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2M5.636 5.636l1.414 1.414m9.9 9.9l1.414 1.414M3 12h2m14 0h2M5.636 18.364l1.414-1.414m9.9-9.9l1.414-1.414M12 8a4 4 0 100 8 4 4 0 000-8z"/>
@@ -70,10 +73,24 @@
             </div>
             <div class="border border-gold-500/20 p-8 rounded-xl text-center space-y-3 bg-mystic-800/30 hover:border-gold-400/60 transition">
                 <svg class="w-10 h-10 mx-auto text-gold-400" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3"/>
+                    <circle cx="12" cy="12" r="9"/>
+                    <path stroke-linecap="round" d="M12 3v2M12 19v2M3 12h2M19 12h2"/>
+                </svg>
+                <h3 class="font-heading text-lg">Vidente</h3>
+            </div>
+            <div class="border border-gold-500/20 p-8 rounded-xl text-center space-y-3 bg-mystic-800/30 hover:border-gold-400/60 transition">
+                <svg class="w-10 h-10 mx-auto text-gold-400" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-8-4.5-8-11a5 5 0 019-3 5 5 0 019 3c0 6.5-8 11-8 11h-2z"/>
                     <path stroke-linecap="round" d="M12 4v7"/>
                 </svg>
                 <h3 class="font-heading text-lg">Ritualista</h3>
+            </div>
+            <div class="border border-gold-500/20 p-8 rounded-xl text-center space-y-3 bg-mystic-800/30 hover:border-gold-400/60 transition">
+                <svg class="w-10 h-10 mx-auto text-gold-400" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 17l6-6 4 4 8-8M21 7h-5M21 7v5"/>
+                </svg>
+                <h3 class="font-heading text-lg">Escritora</h3>
             </div>
             <div class="border border-gold-500/20 p-8 rounded-xl text-center space-y-3 bg-mystic-800/30 hover:border-gold-400/60 transition">
                 <svg class="w-10 h-10 mx-auto text-gold-400" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
@@ -101,7 +118,7 @@
                 </div>
                 <div>
                     <h4 class="font-heading text-xl mb-1">Tarot evolutivo</h4>
-                    <p class="text-gray-400 leading-relaxed">No solo predecimos: conectamos con tu alma y tu proposito de vida para transformar lo que estas viviendo.</p>
+                    <p class="text-gray-400 leading-relaxed">Conexion profunda con el alma y la energia que permite analizar, transformar y tomar decisiones con una vision amplia de la situacion que estas viviendo.</p>
                 </div>
             </div>
 
@@ -111,7 +128,7 @@
                 </div>
                 <div>
                     <h4 class="font-heading text-xl mb-1">Oraculos</h4>
-                    <p class="text-gray-400 leading-relaxed">Mensajes directos del universo para tu dia a dia, canalizados con cartas angelicales, gitanas y oraculos especializados.</p>
+                    <p class="text-gray-400 leading-relaxed">Herramienta complementaria para canalizar mensajes y ampliar la vision que ofrece el tarot.</p>
                 </div>
             </div>
 
@@ -121,7 +138,7 @@
                 </div>
                 <div>
                     <h4 class="font-heading text-xl mb-1">Bola de cristal</h4>
-                    <p class="text-gray-400 leading-relaxed">Cristalomancia, una de las tecnicas ancestrales mas antiguas: visualizacion de futuro cercano y lejano con respuestas claras.</p>
+                    <p class="text-gray-400 leading-relaxed">Cristalomancia. Una de las tecnicas de adivinacion mas antiguas. Visualizacion de futuro cercano y a largo plazo, formas o caracteristicas fisicas. Respuestas claras Si/No. Combinable con tarot.</p>
                 </div>
             </div>
 
@@ -131,7 +148,7 @@
                 </div>
                 <div>
                     <h4 class="font-heading text-xl mb-1">Pendulo</h4>
-                    <p class="text-gray-400 leading-relaxed">Radiestesia precisa para respuestas Si/No y para armonizar tu energia. Combinable con tarot o bola de cristal.</p>
+                    <p class="text-gray-400 leading-relaxed">Junto con la bola de cristal, una de las tecnicas mas antiguas de adivinacion. Respuestas claras y precisas a preguntas cerradas.</p>
                 </div>
             </div>
         </div>
@@ -169,7 +186,7 @@
         </div>
 
         <p class="text-gray-300 leading-relaxed text-lg max-w-2xl mx-auto mb-8">
-            Trabajos energeticos personalizados, consagrados y canalizados a tu situacion particular. Amor, proteccion, prosperidad, limpieza energetica. Magia blanca con intencion real para abrir caminos y cumplir tus deseos.
+            Trabajos energeticos y rituales de alta magia con mucha fuerza que te llevaran a cumplir tus deseos. Amor, proteccion, prosperidad, limpieza energetica. Magia blanca con intencion real.
         </p>
 
         <a href="{{ route('collection', 'rituales') }}" class="inline-flex items-center gap-2 text-gold-400 font-bold uppercase text-xs tracking-[0.3em] border-b border-gold-400/60 pb-1 hover:gap-4 transition-all">
@@ -178,26 +195,18 @@
     </div>
 </section>
 
-{{-- STATS --}}
+{{-- STATS - solo datos verificables --}}
 <section class="py-16 bg-mystic-950/80">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="border border-gold-400/20 p-6 rounded-xl text-center bg-mystic-800/40">
-                <span class="block font-heading text-3xl text-gold-400 mb-1">15+</span>
-                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Anos de experiencia</span>
-            </div>
-            <div class="border border-gold-400/20 p-6 rounded-xl text-center bg-mystic-800/40">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 gap-4">
+            <a href="https://www.tiktok.com/@hechizosdemariatarot" target="_blank" rel="noopener" class="border border-gold-400/20 p-6 rounded-xl text-center bg-mystic-800/40 hover:border-gold-400/60 transition block">
                 <span class="block font-heading text-3xl text-gold-400 mb-1">164.7k</span>
-                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Seguidores TikTok</span>
-            </div>
-            <div class="border border-gold-400/20 p-6 rounded-xl text-center bg-mystic-800/40">
+                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Seguidores en TikTok</span>
+            </a>
+            <a href="https://www.tiktok.com/@hechizosdemariatarot" target="_blank" rel="noopener" class="border border-gold-400/20 p-6 rounded-xl text-center bg-mystic-800/40 hover:border-gold-400/60 transition block">
                 <span class="block font-heading text-3xl text-gold-400 mb-1">2.2M</span>
-                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Likes acumulados</span>
-            </div>
-            <div class="border border-gold-400/20 p-6 rounded-xl text-center bg-mystic-800/40">
-                <span class="block font-heading text-3xl text-gold-400 mb-1">&#9733; 4.9</span>
-                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Valoracion media</span>
-            </div>
+                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Likes en TikTok</span>
+            </a>
         </div>
     </div>
 </section>

@@ -31,16 +31,16 @@
 
             <div class="hidden lg:flex flex-col gap-6 relative">
                 <div class="bg-mystic-800/80 backdrop-blur-md p-6 rounded-xl border border-gold-400/20 w-64 self-start">
-                    <span class="font-heading text-3xl text-gold-400 block mb-1">164k+</span>
+                    <span class="font-heading text-3xl text-gold-400 block mb-1">164.7k</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Seguidores en TikTok</span>
                 </div>
                 <div class="bg-mystic-800/80 backdrop-blur-md p-6 rounded-xl border border-gold-400/20 w-64 self-end -mt-2">
                     <span class="font-heading text-3xl text-gold-400 block mb-1">2.2M</span>
-                    <span class="text-xs text-gray-400 uppercase tracking-widest">Likes en redes</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Likes en TikTok</span>
                 </div>
                 <div class="bg-mystic-800/80 backdrop-blur-md p-6 rounded-xl border border-gold-400/20 w-64 self-start -mt-2">
-                    <span class="font-heading text-3xl text-gold-400 block mb-1">★ 4.9</span>
-                    <span class="text-xs text-gray-400 uppercase tracking-widest">Valoracion media</span>
+                    <span class="font-heading text-3xl text-gold-400 block mb-1">Tarot 24h</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Por WhatsApp</span>
                 </div>
             </div>
         </div>
