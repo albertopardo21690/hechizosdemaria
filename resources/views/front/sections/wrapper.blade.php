@@ -10,7 +10,18 @@
     $renderWidget = function (array $widget) {
         $style = $widget['style'] ?? [];
         $advanced = $widget['advanced'] ?? [];
+        $motion = $widget['motion'] ?? [];
         $classes = [];
+        $attrs = '';
+        if (! empty($motion['type'])) {
+            $attrs .= ' data-motion="'.htmlspecialchars($motion['type']).'"';
+            if (! empty($motion['delay'])) {
+                $attrs .= ' data-motion-delay="'.(int) $motion['delay'].'"';
+            }
+            if (! empty($motion['duration'])) {
+                $attrs .= ' data-motion-duration="'.(int) $motion['duration'].'"';
+            }
+        }
         $mt = $style['margin_top'] ?? null;
         $mb = $style['margin_bottom'] ?? null;
         $ta = $style['text_align'] ?? null;
@@ -49,15 +60,15 @@
         }
         $cls = trim(implode(' ', array_filter($classes)));
 
-        return ['classes' => $cls];
+        return ['classes' => $cls, 'attrs' => $attrs];
     };
 @endphp
 
 @if($isSingleCol && ! $hasCustomSettings)
     @foreach(($cols[0]['widgets'] ?? []) as $widget)
         @php $meta = $renderWidget($widget); @endphp
-        @if($meta['classes'])
-            <div class="{{ $meta['classes'] }}">
+        @if($meta['classes'] || $meta['attrs'])
+            <div class="{{ $meta['classes'] }}" {!! $meta['attrs'] !!}>
                 @includeIf('front.blocks.'.$widget['type'], ['block' => $widget])
             </div>
         @else
@@ -89,7 +100,7 @@
                         <div class="space-y-4">
                             @foreach($col['widgets'] ?? [] as $widget)
                                 @php $meta = $renderWidget($widget); @endphp
-                                <div class="{{ $meta['classes'] }}">
+                                <div class="{{ $meta['classes'] }}" {!! $meta['attrs'] !!}>
                                     @includeIf('front.blocks.'.$widget['type'], ['block' => $widget])
                                 </div>
                             @endforeach

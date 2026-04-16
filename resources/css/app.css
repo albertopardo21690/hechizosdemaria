@@ -68,3 +68,25 @@
     background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-400));
     color: #ffffff;
 }
+
+/* Motion effects */
+[data-motion] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transition-duration: 700ms;
+    will-change: opacity, transform;
+}
+[data-motion="fade-up"] { transform: translateY(30px); }
+[data-motion="fade-down"] { transform: translateY(-30px); }
+[data-motion="fade-left"] { transform: translateX(30px); }
+[data-motion="fade-right"] { transform: translateX(-30px); }
+[data-motion="zoom-in"] { transform: scale(0.9); }
+[data-motion="zoom-out"] { transform: scale(1.1); }
+[data-motion].is-visible {
+    opacity: 1;
+    transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    [data-motion] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}

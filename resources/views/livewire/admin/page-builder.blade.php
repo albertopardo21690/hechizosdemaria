@@ -443,6 +443,29 @@
                 </div>
                 <div x-show="tab==='advanced'" x-cloak class="p-4 space-y-4 text-sm">
                     <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Animación al entrar en vista</label>
+                        <select wire:model.lazy="{{ $path }}.motion.type" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                            <option value="">Ninguna</option>
+                            <option value="fade-up">Fade up</option>
+                            <option value="fade-down">Fade down</option>
+                            <option value="fade-left">Fade desde izquierda</option>
+                            <option value="fade-right">Fade desde derecha</option>
+                            <option value="zoom-in">Zoom in</option>
+                            <option value="zoom-out">Zoom out</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label>
+                            <span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Retardo (ms)</span>
+                            <input type="number" min="0" max="5000" step="50" wire:model.lazy="{{ $path }}.motion.delay" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                        </label>
+                        <label>
+                            <span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Duración (ms)</span>
+                            <input type="number" min="100" max="5000" step="50" wire:model.lazy="{{ $path }}.motion.duration" class="w-full border border-gray-300 rounded-md px-3 py-2">
+                        </label>
+                    </div>
+                    <hr class="border-pink-100">
+                    <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Clase CSS adicional</label>
                         <input type="text" wire:model.lazy="{{ $path }}.advanced.css_class" placeholder="mi-clase-custom otra-clase" class="w-full border border-gray-300 rounded-md px-3 py-2 font-mono text-xs">
                     </div>
