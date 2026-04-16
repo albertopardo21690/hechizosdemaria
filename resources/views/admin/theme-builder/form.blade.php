@@ -25,6 +25,52 @@
             </div>
         </div>
 
+        @if(in_array($template->location, ['product_single', 'collection_archive', 'popup']))
+            <hr class="border-pink-200 my-2">
+            <h3 class="font-heading text-pink-700 mb-1">Condiciones</h3>
+            <p class="text-xs text-gray-500 mb-3">Si dejas la lista vacía, aplica a <strong>todo</strong> el contenido de esta ubicación. Añade condiciones para restringir. Se aplica si <strong>al menos una</strong> condición encaja (OR).</p>
+            <div x-data="{
+                    conditions: @js(is_array($template->conditions) ? $template->conditions : []),
+                    add() { this.conditions.push({type: 'all'}); },
+                    remove(i) { this.conditions.splice(i, 1); },
+                 }" class="space-y-2">
+                <template x-for="(c, i) in conditions" :key="i">
+                    <div class="flex flex-wrap items-center gap-2 bg-pink-50/40 border border-pink-200 rounded-md p-3">
+                        <select x-model="c.type" class="border border-gray-300 rounded-md px-3 py-1.5 text-sm">
+                            <option value="all">Cualquier (sin filtro)</option>
+                            <option value="is_home">Solo página de inicio</option>
+                            <option value="page_slug">Página por slug</option>
+                            <option value="product">Producto concreto</option>
+                            <option value="product_in_collection">Productos de colección</option>
+                            <option value="collection">Colección concreta</option>
+                        </select>
+                        <template x-if="c.type === 'page_slug'">
+                            <input type="text" x-model="c.slug" placeholder="slug" class="flex-1 min-w-[180px] border border-gray-300 rounded-md px-3 py-1.5 text-sm font-mono">
+                        </template>
+                        <template x-if="c.type === 'product' || c.type === 'product_in_collection'">
+                            <select x-show="c.type === 'product'" x-model.number="c.id" class="flex-1 min-w-[220px] border border-gray-300 rounded-md px-3 py-1.5 text-sm">
+                                <option value="">— Selecciona producto —</option>
+                                @foreach($products as $p)
+                                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                @endforeach
+                            </select>
+                        </template>
+                        <template x-if="c.type === 'product_in_collection' || c.type === 'collection'">
+                            <select x-model.number="c.id" class="flex-1 min-w-[220px] border border-gray-300 rounded-md px-3 py-1.5 text-sm">
+                                <option value="">— Selecciona colección —</option>
+                                @foreach($collections as $c)
+                                    <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                @endforeach
+                            </select>
+                        </template>
+                        <button type="button" @click="remove(i)" class="text-red-500 hover:text-red-700 text-xs uppercase tracking-widest font-semibold">Eliminar</button>
+                    </div>
+                </template>
+                <button type="button" @click="add()" class="w-full border-2 border-dashed border-pink-300 text-pink-600 py-2 rounded-md text-xs hover:bg-pink-50 uppercase tracking-widest font-semibold">+ Añadir condición</button>
+                <input type="hidden" name="conditions_json" :value="JSON.stringify(conditions)">
+            </div>
+        @endif
+
         @if($template->location === 'popup')
             <hr class="border-pink-200 my-2">
             <h3 class="font-heading text-pink-700 mb-3">Configuración del popup</h3>

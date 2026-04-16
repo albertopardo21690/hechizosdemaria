@@ -57,7 +57,8 @@ class ShopController extends Controller
             ->take(4)
             ->get();
 
-        $productTemplate = ThemeTemplate::activeFor('product_single');
+        \View::share('themeContext', ['product' => $product]);
+        $productTemplate = ThemeTemplate::activeFor('product_single', ['product' => $product]);
 
         return view('front.shop.product', compact('product', 'related', 'productTemplate'));
     }

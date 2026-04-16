@@ -21,7 +21,8 @@ class CollectionController extends Controller
             ->where('status', 'published')
             ->paginate(24);
 
-        $collectionTemplate = ThemeTemplate::activeFor('collection_archive');
+        \View::share('themeContext', ['collection' => $collection]);
+        $collectionTemplate = ThemeTemplate::activeFor('collection_archive', ['collection' => $collection]);
 
         return view('front.shop.collection', compact('collection', 'products', 'collectionTemplate'));
     }

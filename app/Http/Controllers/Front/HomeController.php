@@ -12,6 +12,7 @@ class HomeController extends Controller
 {
     public function __invoke()
     {
+        \View::share('themeContext', ['is_home' => true]);
         \SEO::setTitle('Tarot, rituales y magia blanca');
         \SEO::setDescription('Lecturas de tarot, rituales personalizados y tienda magica con perfumes arabes, amuletos y cuarzos. Por Maria Jose Gomez, tarotista profesional con 164k+ seguidores.');
         \SEO::jsonLd()->setType('LocalBusiness');

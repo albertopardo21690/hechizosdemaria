@@ -17,8 +17,9 @@
 <body class="antialiased">
 
     @php
-        $headerTpl = \App\Models\ThemeTemplate::activeFor('header');
-        $footerTpl = \App\Models\ThemeTemplate::activeFor('footer');
+        $__themeCtx = $themeContext ?? [];
+        $headerTpl = \App\Models\ThemeTemplate::activeFor('header', $__themeCtx);
+        $footerTpl = \App\Models\ThemeTemplate::activeFor('footer', $__themeCtx);
     @endphp
 
     @if($headerTpl && $headerTpl->hasBlocks())
@@ -48,7 +49,7 @@
     @include('front.partials.cookie-consent')
 
     {{-- POPUPS --}}
-    @php $popups = \App\Models\ThemeTemplate::activePopups(); @endphp
+    @php $popups = \App\Models\ThemeTemplate::activePopups($__themeCtx ?? []); @endphp
     @foreach($popups as $popup)
         @if($popup->hasBlocks())
             @php

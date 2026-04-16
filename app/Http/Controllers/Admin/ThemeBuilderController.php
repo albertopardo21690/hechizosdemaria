@@ -36,7 +36,21 @@ class ThemeBuilderController extends Controller
 
     public function edit(ThemeTemplate $themeTemplate)
     {
-        return view('admin.theme-builder.form', ['template' => $themeTemplate]);
+        $products = \Lunar\Models\Product::with('urls')->get()->map(fn ($p) => (object) [
+            'id' => $p->id,
+            'name' => $p->attribute_data['name']?->getValue() ?? '#'.$p->id,
+        ])->sortBy('name')->values();
+
+        $collections = \Lunar\Models\Collection::get()->map(fn ($c) => (object) [
+            'id' => $c->id,
+            'name' => $c->attribute_data['name']?->getValue() ?? '#'.$c->id,
+        ])->sortBy('name')->values();
+
+        return view('admin.theme-builder.form', [
+            'template' => $themeTemplate,
+            'products' => $products,
+            'collections' => $collections,
+        ]);
     }
 
     public function update(Request $request, ThemeTemplate $themeTemplate)
@@ -48,7 +62,17 @@ class ThemeBuilderController extends Controller
             'trigger_value' => 'nullable|integer|min:0|max:100000',
             'frequency' => 'nullable|in:always,session,once',
             'max_width' => 'nullable|in:sm,md,lg,xl,full',
+            'conditions_json' => 'nullable|string',
         ]);
+
+        if ($request->filled('conditions_json')) {
+            $decoded = json_decode($data['conditions_json'] ?? '[]', true);
+            $data['conditions'] = is_array($decoded) ? array_values(array_filter($decoded, fn ($c) => is_array($c) && ! empty($c['type']))) : [];
+        } else {
+            $data['conditions'] = [];
+        }
+        unset($data['conditions_json']);
+
         $themeTemplate->update($data);
 
         return redirect()->route('admin.theme-builder.edit', $themeTemplate)->with('status', 'Plantilla actualizada.');

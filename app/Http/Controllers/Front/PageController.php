@@ -17,6 +17,7 @@ class PageController extends Controller
             ->where('status', 'published')
             ->firstOrFail();
 
+        \View::share('themeContext', ['page' => $page]);
         \SEO::setTitle($page->title);
         \SEO::setDescription($page->excerpt ?: strip_tags((string) $page->content));
 
