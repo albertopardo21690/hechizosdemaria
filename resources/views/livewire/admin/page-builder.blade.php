@@ -55,8 +55,19 @@
 
     {{-- LIENZO --}}
     <div x-data="{ vp: 'desktop' }">
-        <div class="mb-3 flex items-center justify-between bg-white border border-pink-200 rounded-md p-1.5">
-            <span class="text-[10px] uppercase tracking-widest text-gray-500 pl-2">Vista previa</span>
+        <div class="mb-3 flex items-center justify-between bg-white border border-pink-200 rounded-md p-1.5 flex-wrap gap-2">
+            <div class="flex items-center gap-2 pl-2">
+                <span class="text-[10px] uppercase tracking-widest text-gray-500">Vista previa</span>
+                <template x-if="$store.clipboard.kind">
+                    <span class="text-[10px] uppercase tracking-widest text-pink-700 bg-pink-100 px-2 py-0.5 rounded" x-text="$store.clipboard.label"></span>
+                </template>
+            </div>
+            <div class="flex items-center gap-2">
+                <button type="button" wire:click="openHistory" class="flex items-center gap-1 px-3 py-1 rounded text-xs uppercase tracking-widest font-semibold text-gray-500 hover:text-pink-600 transition" title="Historial de cambios">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+                    Historial
+                </button>
+                <span class="w-px h-5 bg-pink-200"></span>
             <div class="flex items-center gap-1">
                 <button type="button" @click="vp='desktop'" :class="vp==='desktop' ? 'bg-pink-100 text-pink-700' : 'text-gray-500 hover:text-pink-600'" class="flex items-center gap-1 px-3 py-1 rounded text-xs uppercase tracking-widest font-semibold transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -70,6 +81,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                     Móvil
                 </button>
+            </div>
             </div>
         </div>
         <div :class="{ 'max-w-[400px] mx-auto ring-4 ring-pink-100 rounded-lg': vp==='mobile', 'max-w-[800px] mx-auto ring-4 ring-pink-100 rounded-lg': vp==='tablet' }" class="transition-all duration-300">
@@ -102,6 +114,9 @@
                                 </button>
                                 <button type="button" wire:click="duplicateSection('{{ $section['id'] }}')" class="w-7 h-7 rounded hover:bg-white text-pink-700" title="Duplicar sección">
                                     <svg class="w-3.5 h-3.5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                </button>
+                                <button type="button" @click="$store.clipboard.copySection(@js($section))" class="w-7 h-7 rounded hover:bg-white text-pink-700" title="Copiar sección">
+                                    <svg class="w-3.5 h-3.5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 </button>
                                 <button type="button" wire:click="openSaveTemplate('{{ $section['id'] }}')" class="w-7 h-7 rounded hover:bg-white text-pink-700" title="Guardar como plantilla">
                                     <svg class="w-3.5 h-3.5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
@@ -176,6 +191,9 @@
                                                     <button type="button" wire:click="duplicateWidget('{{ $section['id'] }}', '{{ $column['id'] }}', '{{ $widget['id'] }}')" class="w-6 h-6 rounded hover:bg-pink-100 text-gray-600" title="Duplicar">
                                                         <svg class="w-3 h-3 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                                                     </button>
+                                                    <button type="button" @click.stop="$store.clipboard.copyWidget(@js($widget))" class="w-6 h-6 rounded hover:bg-pink-100 text-gray-600" title="Copiar widget">
+                                                        <svg class="w-3 h-3 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                                    </button>
                                                     <button type="button" wire:click="editWidget('{{ $widget['id'] }}')" class="w-6 h-6 rounded hover:bg-pink-100 {{ $editingWidgetId === $widget['id'] ? 'bg-pink-200 text-pink-800' : 'text-gray-600' }}" title="Editar">
                                                         <svg class="w-3 h-3 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                                     </button>
@@ -198,10 +216,15 @@
                                     </div>
 
                                     {{-- widget picker --}}
-                                    <div x-data="{ open: false }" class="relative mt-auto pt-2">
+                                    <div x-data="{ open: false }" class="relative mt-auto pt-2 space-y-1">
                                         <button type="button" @click="open = !open" class="w-full border-2 border-dashed border-pink-300 text-pink-600 py-2 rounded-md text-xs hover:bg-pink-50 uppercase tracking-widest font-semibold">
                                             + Widget
                                         </button>
+                                        <template x-if="$store.clipboard.kind === 'widget'">
+                                            <button type="button" @click="$store.clipboard.pasteWidget($wire, '{{ $section['id'] }}', '{{ $column['id'] }}')" class="w-full bg-pink-50 border border-pink-400 text-pink-700 py-1.5 rounded-md text-[10px] hover:bg-pink-100 uppercase tracking-widest font-semibold">
+                                                Pegar widget
+                                            </button>
+                                        </template>
                                         <div x-show="open" x-on:click.outside="open = false" x-transition.opacity x-cloak class="absolute z-20 left-0 right-0 mt-1 bg-white border border-pink-200 rounded-md shadow-lg p-2 grid grid-cols-2 gap-1 max-h-72 overflow-auto">
                                             @foreach($widgetTypes as $type => $meta)
                                                 <button type="button" wire:click="addWidget('{{ $section['id'] }}', '{{ $column['id'] }}', '{{ $type }}')" @click="open = false" class="flex items-center gap-1 p-2 rounded text-left text-xs hover:bg-pink-50">
@@ -217,9 +240,50 @@
                     </div>
                 @endforeach
             </div>
+            <template x-if="$store.clipboard.kind === 'section'">
+                <button type="button" @click="$store.clipboard.pasteSection($wire)" class="mt-4 w-full bg-pink-50 border-2 border-dashed border-pink-400 text-pink-700 py-3 rounded-md text-xs hover:bg-pink-100 uppercase tracking-widest font-semibold">
+                    Pegar sección copiada
+                </button>
+            </template>
         @endif
         </div>
     </div>
+
+    {{-- MODAL HISTORIAL --}}
+    @if($historyOpen)
+        <div class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+             x-data @keydown.escape.window="$wire.closeHistory()"
+             wire:click.self="closeHistory">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col overflow-hidden">
+                <header class="flex items-center justify-between px-5 py-3 border-b border-pink-200 bg-pink-50">
+                    <h3 class="font-heading text-lg text-pink-700">Historial de cambios</h3>
+                    <button type="button" wire:click="closeHistory" class="text-gray-500 hover:text-gray-800">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </header>
+                <div class="flex-1 overflow-auto divide-y divide-pink-100">
+                    @forelse($revisionsList as $rev)
+                        <div class="flex items-center justify-between px-5 py-3 hover:bg-pink-50/40">
+                            <div>
+                                <p class="text-sm text-gray-700">{{ $rev->created_at->diffForHumans() }}</p>
+                                <p class="text-[10px] text-gray-400 font-mono">{{ $rev->created_at->format('Y-m-d H:i:s') }} · rev #{{ $rev->id }}</p>
+                            </div>
+                            <button type="button" wire:click="restoreRevision({{ $rev->id }})" wire:confirm="¿Restaurar este estado? Los cambios actuales se guardan también como revisión." class="bg-pink-500 hover:bg-pink-600 text-white text-[10px] uppercase tracking-widest font-semibold px-3 py-1.5 rounded-md">
+                                Restaurar
+                            </button>
+                        </div>
+                    @empty
+                        <div class="p-10 text-center text-gray-400 text-sm">
+                            Todavía no hay revisiones guardadas. Edita algo y vuelve.
+                        </div>
+                    @endforelse
+                </div>
+                <footer class="px-5 py-3 bg-pink-50/60 border-t border-pink-200 text-[10px] text-gray-500">
+                    Se conservan las últimas 20 revisiones automáticamente al editar.
+                </footer>
+            </div>
+        </div>
+    @endif
 
     {{-- MODAL GUARDAR PLANTILLA --}}
     @if($savingTemplateSectionId)

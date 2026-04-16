@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Page;
+use App\Models\PageRevision;
 use App\Models\PageTemplate;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class PageBuilder extends Component
@@ -20,6 +22,8 @@ class PageBuilder extends Component
     public ?string $savingTemplateSectionId = null;
 
     public string $newTemplateName = '';
+
+    public bool $historyOpen = false;
 
     public function mount(Page $page): void
     {
@@ -561,15 +565,115 @@ class PageBuilder extends Component
 
     public function persist(): void
     {
+        $previous = $this->page->blocks;
         $this->page->update(['blocks' => $this->sections]);
+        $this->snapshotRevision($previous);
+    }
+
+    protected function snapshotRevision(?array $previous): void
+    {
+        if (! is_array($previous) || $previous === $this->sections) {
+            return;
+        }
+        PageRevision::create([
+            'page_id' => $this->page->id,
+            'staff_id' => auth('staff')->id(),
+            'blocks' => $previous,
+        ]);
+        $keepIds = PageRevision::where('page_id', $this->page->id)
+            ->orderByDesc('id')
+            ->limit(20)
+            ->pluck('id');
+        PageRevision::where('page_id', $this->page->id)
+            ->whereNotIn('id', $keepIds)
+            ->delete();
+    }
+
+    public function openHistory(): void
+    {
+        $this->historyOpen = true;
+    }
+
+    public function closeHistory(): void
+    {
+        $this->historyOpen = false;
+    }
+
+    public function restoreRevision(int $revisionId): void
+    {
+        $rev = PageRevision::where('page_id', $this->page->id)->find($revisionId);
+        if (! $rev) {
+            return;
+        }
+        $previous = $this->page->blocks;
+        $this->sections = self::normalize($rev->blocks ?? []);
+        $this->page->update(['blocks' => $this->sections]);
+        $this->snapshotRevision($previous);
+        $this->historyOpen = false;
+        $this->editingWidgetId = null;
+        $this->editingSectionId = null;
+    }
+
+    #[On('clipboard-paste-section')]
+    public function pasteSection(array $payload): void
+    {
+        $section = $this->reassignIds($payload);
+        if (! isset($section['columns'])) {
+            return;
+        }
+        $this->sections[] = $section;
+        $this->persist();
+    }
+
+    #[On('clipboard-paste-widget')]
+    public function pasteWidget(string $sectionId, string $columnId, array $payload): void
+    {
+        if (! isset($payload['type'])) {
+            return;
+        }
+        $widget = $payload;
+        $widget['id'] = (string) Str::uuid();
+        foreach ($this->sections as $si => $section) {
+            if ($section['id'] !== $sectionId) {
+                continue;
+            }
+            foreach ($section['columns'] as $ci => $col) {
+                if ($col['id'] !== $columnId) {
+                    continue;
+                }
+                $this->sections[$si]['columns'][$ci]['widgets'][] = $widget;
+                $this->persist();
+
+                return;
+            }
+        }
+    }
+
+    protected function reassignIds(array $section): array
+    {
+        $section['id'] = (string) Str::uuid();
+        foreach ($section['columns'] ?? [] as $ci => $col) {
+            $section['columns'][$ci]['id'] = (string) Str::uuid();
+            foreach ($col['widgets'] ?? [] as $wi => $w) {
+                $section['columns'][$ci]['widgets'][$wi]['id'] = (string) Str::uuid();
+            }
+        }
+
+        return $section;
     }
 
     public function render()
     {
+        $revisions = PageRevision::where('page_id', $this->page->id)
+            ->orderByDesc('id')
+            ->limit(20)
+            ->get(['id', 'created_at', 'staff_id']);
+
         return view('livewire.admin.page-builder', [
             'widgetTypes' => self::widgetTypes(),
             'sectionLayouts' => self::sectionLayouts(),
             'templatesList' => PageTemplate::where('kind', 'section')->orderBy('name')->get(['id', 'name']),
+            'revisionsList' => $revisions,
             'testimonialsList' => \App\Models\Testimonial::orderByDesc('featured')->orderBy('sort')->get(['id', 'name', 'text']),
             'collectionsList' => \Lunar\Models\Collection::with('urls')->get()->map(fn ($c) => (object) [
                 'id' => $c->id,
