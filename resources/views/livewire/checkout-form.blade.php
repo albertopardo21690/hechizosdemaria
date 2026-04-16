@@ -109,12 +109,15 @@
                 <h2 class="font-heading text-xl text-gold-400 mb-5">Tu pedido</h2>
                 <div class="space-y-3 mb-5 border-b border-white/10 pb-4">
                     @foreach($lines as $line)
+                        @php
+                            $lineSub = $line->subTotal?->decimal ?? (($line->unitPrice?->decimal ?? 0) * $line->quantity);
+                        @endphp
                         <div class="flex justify-between text-sm gap-2">
                             <span class="text-gray-300">
                                 {{ $line->purchasable?->product?->attribute_data['name']?->getValue() ?? $line->description }}
                                 <span class="text-gray-500">x{{ $line->quantity }}</span>
                             </span>
-                            <span class="text-gold-400 whitespace-nowrap">{{ number_format($line->subTotal->decimal ?? 0, 2, ',', '.') }} €</span>
+                            <span class="text-gold-400 whitespace-nowrap">{{ number_format($lineSub, 2, ',', '.') }} €</span>
                         </div>
                     @endforeach
                 </div>

@@ -103,7 +103,7 @@ class CheckoutForm extends Component
 
         return view('livewire.checkout-form', [
             'cart' => $cart,
-            'lines' => $cart?->lines()->with('purchasable.product')->get() ?? collect(),
+            'lines' => $cart?->lines ?? collect(),
             'countries' => Country::orderBy('name')->get(['id', 'name']),
         ]);
     }
