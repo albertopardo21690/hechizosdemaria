@@ -10,5 +10,11 @@ class Page extends Model
 
     protected $casts = [
         'seo' => 'array',
+        'blocks' => 'array',
     ];
+
+    public function hasBlocks(): bool
+    {
+        return is_array($this->blocks) && count($this->blocks) > 0;
+    }
 }
