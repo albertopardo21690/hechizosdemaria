@@ -15,7 +15,10 @@ Route::get('/coleccion/{slug}', CollectionController::class)->name('collection')
 
 Route::get('/servicio/{slug}', fn (string $slug) => redirect()->route('product', $slug), 301)->name('legacy.product');
 
-Route::view('/carrito', 'front.pages.cart')->name('cart');
+Route::get('/carrito', function () {
+    return view('front.pages.cart');
+})->name('cart');
+
 Route::view('/checkout', 'front.pages.checkout')->name('checkout');
 Route::view('/contacto', 'front.pages.contact')->name('contact');
 

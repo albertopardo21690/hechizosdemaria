@@ -59,11 +59,9 @@
             @endif
 
             <div class="flex flex-wrap gap-4 mb-8">
-                <form method="POST" action="#" class="inline-flex">
-                    @csrf
-                    <input type="hidden" name="variant_id" value="{{ $variant?->id }}">
-                    <button type="submit" class="btn-mystic">Anadir al carrito</button>
-                </form>
+                @if($variant)
+                    <livewire:add-to-cart :variantId="$variant->id" />
+                @endif
                 <a href="https://wa.me/34695619087?text={{ urlencode('Hola Maria, me interesa: '.$name) }}" target="_blank" rel="noopener"
                    class="inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold tracking-wide border border-gold-400/60 text-gold-400 hover:bg-gold-400/10 transition">
                     Consultar por WhatsApp
