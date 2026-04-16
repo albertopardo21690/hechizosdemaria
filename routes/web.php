@@ -6,12 +6,14 @@ use App\Http\Controllers\Admin\BrandingController;
 use App\Http\Controllers\Admin\CollectionController as AdminCollectionController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FormSubmissionController as AdminFormSubmissionController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Admin\ThemeBuilderController as AdminThemeBuilderController;
 use App\Http\Controllers\Front\CollectionController;
+use App\Http\Controllers\Front\FormController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\PaymentController;
@@ -71,6 +73,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('customers', [AdminCustomerController::class, 'index'])->name('customers.index');
         Route::get('customers/{customer}', [AdminCustomerController::class, 'show'])->name('customers.show');
 
+        // Form submissions
+        Route::get('form-submissions', [AdminFormSubmissionController::class, 'index'])->name('form-submissions.index');
+        Route::get('form-submissions/{submission}', [AdminFormSubmissionController::class, 'show'])->name('form-submissions.show');
+        Route::delete('form-submissions/{submission}', [AdminFormSubmissionController::class, 'destroy'])->name('form-submissions.destroy');
+
         // Theme Builder
         Route::get('theme-builder', [AdminThemeBuilderController::class, 'index'])->name('theme-builder.index');
         Route::post('theme-builder', [AdminThemeBuilderController::class, 'create'])->name('theme-builder.create');
@@ -101,6 +108,8 @@ Route::get('/categoria-producto/{slug}', fn (string $slug) => redirect()->route(
 Route::view('/carrito', 'front.pages.cart')->name('cart');
 Route::view('/checkout', 'front.pages.checkout')->name('checkout');
 Route::view('/contacto', 'front.pages.contact')->name('contact');
+
+Route::post('/forms/submit', [FormController::class, 'submit'])->name('forms.submit');
 
 Route::get('/pagar/{gateway}/{reference}', [PaymentController::class, 'start'])->name('payment.start');
 Route::get('/pedido/{reference}/exito', [PaymentController::class, 'success'])->name('payment.success');

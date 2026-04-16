@@ -203,6 +203,17 @@ class ThemeTemplateBuilder extends Component
                 'tag' => 'h1',
                 'align' => 'center',
             ]],
+            'form' => ['label' => 'Formulario', 'icon' => 'document', 'defaults' => [
+                'form_name' => 'contacto',
+                'submit_text' => 'Enviar',
+                'success_message' => 'Gracias, te responderemos pronto.',
+                'email_to' => '',
+                'fields' => [
+                    ['type' => 'text', 'name' => 'nombre', 'label' => 'Nombre', 'required' => true, 'placeholder' => ''],
+                    ['type' => 'email', 'name' => 'email', 'label' => 'Email', 'required' => true, 'placeholder' => ''],
+                    ['type' => 'textarea', 'name' => 'mensaje', 'label' => 'Mensaje', 'required' => true, 'placeholder' => ''],
+                ],
+            ]],
         ];
     }
 
@@ -556,6 +567,24 @@ class ThemeTemplateBuilder extends Component
                 return;
             }
         }
+    }
+
+    public function formAddField(string $widgetId): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w): void {
+            if ($w['type'] === 'form') {
+                $w['props']['fields'][] = ['type' => 'text', 'name' => 'campo_'.count($w['props']['fields']), 'label' => 'Nuevo campo', 'required' => false, 'placeholder' => ''];
+            }
+        });
+    }
+
+    public function formRemoveField(string $widgetId, int $index): void
+    {
+        $this->mutateWidget($widgetId, function (array &$w) use ($index): void {
+            if ($w['type'] === 'form') {
+                array_splice($w['props']['fields'], $index, 1);
+            }
+        });
     }
 
     public function navAddItem(string $widgetId): void
