@@ -1,8 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuth;
+use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BrandingController;
+use App\Http\Controllers\Admin\CollectionController as AdminCollectionController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Front\CollectionController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\PageController;
@@ -22,14 +29,46 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('branding/{slot}', [BrandingController::class, 'upload'])->name('branding.upload');
         Route::post('branding/{slot}/delete', [BrandingController::class, 'delete'])->name('branding.delete');
 
-        // Placeholders for upcoming sections
-        Route::view('products', 'admin.placeholder', ['title' => 'Productos', 'phase' => 'B1'])->name('products.index');
-        Route::view('orders', 'admin.placeholder', ['title' => 'Pedidos', 'phase' => 'B2'])->name('orders.index');
-        Route::view('pages', 'admin.placeholder', ['title' => 'Paginas', 'phase' => 'B3'])->name('pages.index');
-        Route::view('testimonials', 'admin.placeholder', ['title' => 'Testimonios', 'phase' => 'B3'])->name('testimonials.index');
-        Route::view('blog', 'admin.placeholder', ['title' => 'Blog', 'phase' => 'B3'])->name('blog.index');
-        Route::view('collections', 'admin.placeholder', ['title' => 'Colecciones', 'phase' => 'C1'])->name('collections.index');
-        Route::view('customers', 'admin.placeholder', ['title' => 'Clientes', 'phase' => 'C2'])->name('customers.index');
+        // Products
+        Route::get('products', [AdminProductController::class, 'index'])->name('products.index');
+        Route::get('products/create', [AdminProductController::class, 'create'])->name('products.create');
+        Route::post('products', [AdminProductController::class, 'store'])->name('products.store');
+        Route::get('products/{product}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
+        Route::put('products/{product}', [AdminProductController::class, 'update'])->name('products.update');
+        Route::delete('products/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
+        Route::post('products/{product}/image', [AdminProductController::class, 'uploadImage'])->name('products.upload-image');
+        Route::post('products/{product}/image/{mediaId}/delete', [AdminProductController::class, 'deleteImage'])->name('products.delete-image');
+
+        // Orders
+        Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::put('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
+
+        // Pages
+        Route::get('pages', [AdminPageController::class, 'index'])->name('pages.index');
+        Route::get('pages/create', [AdminPageController::class, 'create'])->name('pages.create');
+        Route::post('pages', [AdminPageController::class, 'store'])->name('pages.store');
+        Route::get('pages/{page}/edit', [AdminPageController::class, 'edit'])->name('pages.edit');
+        Route::put('pages/{page}', [AdminPageController::class, 'update'])->name('pages.update');
+        Route::delete('pages/{page}', [AdminPageController::class, 'destroy'])->name('pages.destroy');
+
+        // Testimonials
+        Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);
+
+        // Blog
+        Route::get('blog', [AdminBlogPostController::class, 'index'])->name('blog.index');
+        Route::get('blog/create', [AdminBlogPostController::class, 'create'])->name('blog.create');
+        Route::post('blog', [AdminBlogPostController::class, 'store'])->name('blog.store');
+        Route::get('blog/{post}/edit', [AdminBlogPostController::class, 'edit'])->name('blog.edit');
+        Route::put('blog/{post}', [AdminBlogPostController::class, 'update'])->name('blog.update');
+        Route::delete('blog/{post}', [AdminBlogPostController::class, 'destroy'])->name('blog.destroy');
+
+        // Collections
+        Route::resource('collections', AdminCollectionController::class)->except(['show']);
+
+        // Customers
+        Route::get('customers', [AdminCustomerController::class, 'index'])->name('customers.index');
+        Route::get('customers/{customer}', [AdminCustomerController::class, 'show'])->name('customers.show');
     });
 });
 
