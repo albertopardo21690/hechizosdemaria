@@ -383,6 +383,62 @@ class PageBuilder extends Component
         $this->editingSectionId = null;
     }
 
+    public function reorderSections(array $orderedIds): void
+    {
+        $bySource = [];
+        foreach ($this->sections as $s) {
+            $bySource[$s['id']] = $s;
+        }
+        $reordered = [];
+        foreach ($orderedIds as $id) {
+            if (isset($bySource[$id])) {
+                $reordered[] = $bySource[$id];
+                unset($bySource[$id]);
+            }
+        }
+        foreach ($bySource as $s) {
+            $reordered[] = $s;
+        }
+        $this->sections = $reordered;
+        $this->persist();
+    }
+
+    public function moveWidget(string $widgetId, string $toSectionId, string $toColumnId, int $toIndex): void
+    {
+        $widget = null;
+        foreach ($this->sections as $si => $section) {
+            foreach ($section['columns'] as $ci => $col) {
+                foreach ($col['widgets'] as $wi => $w) {
+                    if ($w['id'] !== $widgetId) {
+                        continue;
+                    }
+                    $widget = $w;
+                    array_splice($this->sections[$si]['columns'][$ci]['widgets'], $wi, 1);
+                    break 3;
+                }
+            }
+        }
+        if ($widget === null) {
+            return;
+        }
+        foreach ($this->sections as $si => $section) {
+            if ($section['id'] !== $toSectionId) {
+                continue;
+            }
+            foreach ($section['columns'] as $ci => $col) {
+                if ($col['id'] !== $toColumnId) {
+                    continue;
+                }
+                $count = count($this->sections[$si]['columns'][$ci]['widgets']);
+                $toIndex = max(0, min($toIndex, $count));
+                array_splice($this->sections[$si]['columns'][$ci]['widgets'], $toIndex, 0, [$widget]);
+                $this->persist();
+
+                return;
+            }
+        }
+    }
+
     public function addGalleryImage(string $widgetId): void
     {
         $this->mutateWidget($widgetId, function (array &$w): void {

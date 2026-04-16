@@ -28,13 +28,16 @@
                 <p class="text-gray-500 text-sm">Elige un layout en el panel de la izquierda para añadir tu primera sección.</p>
             </div>
         @else
-            <div class="space-y-4">
+            <div class="space-y-4" x-data="sortableSections">
                 @foreach($sections as $si => $section)
                     @php $totalCols = count($section['columns'] ?? []); @endphp
-                    <div wire:key="section-{{ $section['id'] }}" class="bg-white border-2 border-pink-200 rounded-xl overflow-hidden">
+                    <div wire:key="section-{{ $section['id'] }}" data-section-id="{{ $section['id'] }}" class="bg-white border-2 border-pink-200 rounded-xl overflow-hidden">
                         {{-- toolbar --}}
                         <div class="flex items-center justify-between px-4 py-2 bg-pink-100 border-b border-pink-200">
                             <div class="flex items-center gap-2">
+                                <button type="button" class="section-drag-handle cursor-grab active:cursor-grabbing text-pink-700 hover:text-pink-900 px-1" title="Arrastrar sección">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M7 2a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0zM7 18a2 2 0 11-4 0 2 2 0 014 0zM17 2a2 2 0 11-4 0 2 2 0 014 0zM17 10a2 2 0 11-4 0 2 2 0 014 0zM17 18a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                                </button>
                                 <span class="text-[10px] font-mono text-pink-700 bg-white px-2 py-0.5 rounded">S{{ $si + 1 }}</span>
                                 <span class="text-xs font-heading text-pink-700 uppercase tracking-widest">Sección · {{ $totalCols }} col{{ $totalCols > 1 ? 's' : '' }}</span>
                             </div>
@@ -91,14 +94,23 @@
                         @endphp
                         <div class="p-3 grid gap-3" style="grid-template-columns: {{ $gridTemplate }}">
                             @foreach($section['columns'] as $ci => $column)
-                                <div wire:key="column-{{ $column['id'] }}" class="border border-dashed border-pink-200 rounded-md bg-pink-50/20 min-h-[140px] p-2 space-y-2 flex flex-col">
-                                    <div class="text-[10px] font-mono text-pink-600 uppercase tracking-widest">Columna {{ $ci + 1 }} · {{ $column['width'] ?? 100 }}%</div>
+                                <div wire:key="column-{{ $column['id'] }}" class="border border-dashed border-pink-200 rounded-md bg-pink-50/20 min-h-[140px] p-2 flex flex-col">
+                                    <div class="text-[10px] font-mono text-pink-600 uppercase tracking-widest mb-2">Columna {{ $ci + 1 }} · {{ $column['width'] ?? 100 }}%</div>
 
+                                    <div class="space-y-2 flex-1"
+                                         x-data="sortableWidgets({ sectionId: '{{ $section['id'] }}' })"
+                                         data-section-id="{{ $section['id'] }}"
+                                         data-column-id="{{ $column['id'] }}">
                                     @foreach($column['widgets'] ?? [] as $wi => $widget)
                                         @php $path = "sections.{$si}.columns.{$ci}.widgets.{$wi}"; @endphp
-                                        <div wire:key="widget-{{ $widget['id'] }}" class="bg-white border border-pink-200 rounded-md overflow-hidden">
+                                        <div wire:key="widget-{{ $widget['id'] }}" data-widget-id="{{ $widget['id'] }}" class="bg-white border border-pink-200 rounded-md overflow-hidden">
                                             <div class="flex items-center justify-between px-3 py-2 bg-pink-50 border-b border-pink-200">
-                                                <span class="text-xs font-heading text-pink-700 uppercase tracking-widest truncate">{{ $widgetTypes[$widget['type']]['label'] ?? $widget['type'] }}</span>
+                                                <div class="flex items-center gap-1.5 min-w-0">
+                                                    <button type="button" class="widget-drag-handle cursor-grab active:cursor-grabbing text-pink-600 hover:text-pink-800 shrink-0" title="Arrastrar widget">
+                                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M7 2a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0zM7 18a2 2 0 11-4 0 2 2 0 014 0zM17 2a2 2 0 11-4 0 2 2 0 014 0zM17 10a2 2 0 11-4 0 2 2 0 014 0zM17 18a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                                                    </button>
+                                                    <span class="text-xs font-heading text-pink-700 uppercase tracking-widest truncate">{{ $widgetTypes[$widget['type']]['label'] ?? $widget['type'] }}</span>
+                                                </div>
                                                 <div class="flex items-center gap-0.5 shrink-0">
                                                     <button type="button" wire:click="moveWidgetUp('{{ $section['id'] }}', '{{ $column['id'] }}', '{{ $widget['id'] }}')" @disabled($wi === 0) class="w-6 h-6 rounded hover:bg-pink-100 text-gray-600 disabled:opacity-30" title="Subir">
                                                         <svg class="w-3 h-3 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
@@ -128,9 +140,10 @@
                                             </div>
                                         </div>
                                     @endforeach
+                                    </div>
 
                                     {{-- widget picker --}}
-                                    <div x-data="{ open: false }" class="relative mt-auto">
+                                    <div x-data="{ open: false }" class="relative mt-auto pt-2">
                                         <button type="button" @click="open = !open" class="w-full border-2 border-dashed border-pink-300 text-pink-600 py-2 rounded-md text-xs hover:bg-pink-50 uppercase tracking-widest font-semibold">
                                             + Widget
                                         </button>

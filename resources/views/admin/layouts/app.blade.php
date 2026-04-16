@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin-builder.js'])
     @livewireStyles
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900" style="background: linear-gradient(180deg, #fff 0%, #fdf2f8 100%) fixed;">
