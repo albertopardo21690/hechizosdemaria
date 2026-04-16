@@ -28,7 +28,7 @@ class ShopController extends Controller
 
         $related = Product::where('status', 'published')
             ->where('id', '!=', $product->id)
-            ->whereHas('collections', fn ($q) => $q->whereIn('collections.id', $product->collections->pluck('id')))
+            ->whereHas('collections', fn ($q) => $q->whereIn('lunar_collections.id', $product->collections->pluck('id')))
             ->with(['variants.prices.currency', 'media'])
             ->inRandomOrder()
             ->take(4)
