@@ -38,7 +38,25 @@
     </aside>
 
     {{-- LIENZO --}}
-    <div>
+    <div x-data="{ vp: 'desktop' }">
+        <div class="mb-3 flex items-center justify-between bg-white border border-pink-200 rounded-md p-1.5">
+            <span class="text-[10px] uppercase tracking-widest text-gray-500 pl-2">Vista previa</span>
+            <div class="flex items-center gap-1">
+                <button type="button" @click="vp='desktop'" :class="vp==='desktop' ? 'bg-pink-100 text-pink-700' : 'text-gray-500 hover:text-pink-600'" class="flex items-center gap-1 px-3 py-1 rounded text-xs uppercase tracking-widest font-semibold transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    Escritorio
+                </button>
+                <button type="button" @click="vp='tablet'" :class="vp==='tablet' ? 'bg-pink-100 text-pink-700' : 'text-gray-500 hover:text-pink-600'" class="flex items-center gap-1 px-3 py-1 rounded text-xs uppercase tracking-widest font-semibold transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Tablet
+                </button>
+                <button type="button" @click="vp='mobile'" :class="vp==='mobile' ? 'bg-pink-100 text-pink-700' : 'text-gray-500 hover:text-pink-600'" class="flex items-center gap-1 px-3 py-1 rounded text-xs uppercase tracking-widest font-semibold transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Móvil
+                </button>
+            </div>
+        </div>
+        <div :class="{ 'max-w-[400px] mx-auto ring-4 ring-pink-100 rounded-lg': vp==='mobile', 'max-w-[800px] mx-auto ring-4 ring-pink-100 rounded-lg': vp==='tablet' }" class="transition-all duration-300">
         @if(empty($sections))
             <div class="bg-white border-2 border-dashed border-pink-200 rounded-xl p-16 text-center">
                 <svg class="w-14 h-14 mx-auto text-pink-300 mb-4" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
@@ -181,6 +199,7 @@
                 @endforeach
             </div>
         @endif
+        </div>
     </div>
 
     {{-- PANEL CONTEXTUAL DE EDICION --}}
