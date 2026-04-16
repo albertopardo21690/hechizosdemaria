@@ -5,8 +5,8 @@
 
 @section('content')
 @if($page->hasBlocks())
-    @foreach($page->blocks as $block)
-        @includeIf('front.blocks.'.$block['type'], ['block' => $block])
+    @foreach($page->sectionsNormalized() as $section)
+        @include('front.sections.wrapper', ['section' => $section])
     @endforeach
 @else
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

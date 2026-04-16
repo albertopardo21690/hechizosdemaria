@@ -1,11 +1,11 @@
 @if($editing)
     <div class="space-y-3">
-        <label class="block max-w-xs text-sm"><span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Columnas</span><select wire:model.lazy="blocks.{{ $index }}.props.columns" class="w-full border border-gray-300 rounded-md px-3 py-2"><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
+        <label class="block max-w-xs text-sm"><span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Columnas</span><select wire:model.lazy="{{ $path }}.props.columns" class="w-full border border-gray-300 rounded-md px-3 py-2"><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
         @foreach($block['props']['images'] as $idx => $img)
             <div class="flex gap-2 items-start border border-pink-200 rounded-md p-2">
                 <div class="flex-1 grid grid-cols-2 gap-2">
-                    <input type="text" wire:model.lazy="blocks.{{ $index }}.props.images.{{ $idx }}.src" placeholder="URL" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm font-mono">
-                    <input type="text" wire:model.lazy="blocks.{{ $index }}.props.images.{{ $idx }}.alt" placeholder="Alt" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                    <input type="text" wire:model.lazy="{{ $path }}.props.images.{{ $idx }}.src" placeholder="URL" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm font-mono">
+                    <input type="text" wire:model.lazy="{{ $path }}.props.images.{{ $idx }}.alt" placeholder="Alt" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
                 </div>
                 <button type="button" wire:click="removeGalleryImage('{{ $block['id'] }}', {{ $idx }})" class="text-red-500 hover:text-red-700 px-2 py-2">&times;</button>
             </div>
