@@ -13,8 +13,7 @@
                 <input type="text" name="title" value="{{ old('title', $post?->title) }}" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none">
             </div>
             <div>
-                <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Slug *</label>
-                <input type="text" name="slug" value="{{ old('slug', $post?->slug) }}" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none font-mono text-sm">
+                @include('admin._partials.slug-field', ['source' => 'title', 'slug' => old('slug', $post?->slug ?? ''), 'sourceValue' => old('title', $post?->title ?? ''), 'urlPrefix' => '/blog/'])
             </div>
             <div>
                 <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Resumen</label>

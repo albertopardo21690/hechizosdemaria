@@ -18,8 +18,7 @@
             <input type="text" name="name" value="{{ old('name', $name) }}" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none">
         </div>
         <div>
-            <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Slug *</label>
-            <input type="text" name="slug" value="{{ old('slug', $slug) }}" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none font-mono text-sm">
+            @include('admin._partials.slug-field', ['source' => 'name', 'slug' => old('slug', $slug), 'sourceValue' => old('name', $name), 'urlPrefix' => '/coleccion/'])
         </div>
         <div>
             <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Descripción</label>

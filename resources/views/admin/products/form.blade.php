@@ -26,9 +26,7 @@
                     @error('name')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Slug *</label>
-                    <input type="text" name="slug" value="{{ old('slug', $slug) }}" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:border-pink-500 focus:outline-none font-mono text-sm">
-                    <p class="text-xs text-gray-500 mt-1">URL: /tienda/<strong>{{ old('slug', $slug) ?: 'ejemplo' }}</strong></p>
+                    @include('admin._partials.slug-field', ['source' => 'name', 'slug' => old('slug', $slug), 'sourceValue' => old('name', $name), 'urlPrefix' => '/tienda/'])
                     @error('slug')<span class="text-red-600 text-xs">{{ $message }}</span>@enderror
                 </div>
                 <div class="md:col-span-2">
