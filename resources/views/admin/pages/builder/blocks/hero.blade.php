@@ -9,6 +9,7 @@
         <label class="block"><span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">Texto del botón</span><input type="text" wire:model.lazy="{{ $path }}.props.cta_text" class="w-full border border-gray-300 rounded-md px-3 py-2"></label>
         <label class="block"><span class="block text-xs uppercase tracking-widest text-gray-600 mb-1">URL del botón</span><input type="text" wire:model.lazy="{{ $path }}.props.cta_url" class="w-full border border-gray-300 rounded-md px-3 py-2 font-mono text-xs"></label>
     </div>
+    @include('admin.pages.builder.dynamic-vars-help')
 @else
     <div class="text-sm text-gray-600">
         <p class="font-heading text-lg text-pink-700">{{ $block['props']['heading'] ?? '—' }}</p>
