@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
+use App\Http\Controllers\Admin\ThemeBuilderController as AdminThemeBuilderController;
 use App\Http\Controllers\Front\CollectionController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\PageController;
@@ -69,6 +70,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Customers
         Route::get('customers', [AdminCustomerController::class, 'index'])->name('customers.index');
         Route::get('customers/{customer}', [AdminCustomerController::class, 'show'])->name('customers.show');
+
+        // Theme Builder
+        Route::get('theme-builder', [AdminThemeBuilderController::class, 'index'])->name('theme-builder.index');
+        Route::post('theme-builder', [AdminThemeBuilderController::class, 'create'])->name('theme-builder.create');
+        Route::get('theme-builder/{themeTemplate}/edit', [AdminThemeBuilderController::class, 'edit'])->name('theme-builder.edit');
+        Route::put('theme-builder/{themeTemplate}', [AdminThemeBuilderController::class, 'update'])->name('theme-builder.update');
+        Route::delete('theme-builder/{themeTemplate}', [AdminThemeBuilderController::class, 'destroy'])->name('theme-builder.destroy');
+        Route::post('theme-builder/{themeTemplate}/toggle', [AdminThemeBuilderController::class, 'toggleActive'])->name('theme-builder.toggle');
     });
 });
 

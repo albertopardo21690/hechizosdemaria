@@ -16,13 +16,34 @@
 </head>
 <body class="antialiased">
 
-    @include('front.partials.header')
+    @php
+        $headerTpl = \App\Models\ThemeTemplate::activeFor('header');
+        $footerTpl = \App\Models\ThemeTemplate::activeFor('footer');
+    @endphp
+
+    @if($headerTpl && $headerTpl->hasBlocks())
+        <header>
+            @foreach($headerTpl->sectionsNormalized() as $section)
+                @include('front.sections.wrapper', ['section' => $section])
+            @endforeach
+        </header>
+    @else
+        @include('front.partials.header')
+    @endif
 
     <main>
         @yield('content')
     </main>
 
-    @include('front.partials.footer')
+    @if($footerTpl && $footerTpl->hasBlocks())
+        <footer>
+            @foreach($footerTpl->sectionsNormalized() as $section)
+                @include('front.sections.wrapper', ['section' => $section])
+            @endforeach
+        </footer>
+    @else
+        @include('front.partials.footer')
+    @endif
     @include('front.partials.whatsapp-float')
     @include('front.partials.cookie-consent')
 

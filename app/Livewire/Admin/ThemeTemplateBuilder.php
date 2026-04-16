@@ -2,16 +2,15 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Page;
-use App\Models\PageRevision;
 use App\Models\PageTemplate;
+use App\Models\ThemeTemplate;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class PageBuilder extends Component
+class ThemeTemplateBuilder extends Component
 {
-    public Page $page;
+    public ThemeTemplate $template;
 
     public array $sections = [];
 
@@ -25,10 +24,10 @@ class PageBuilder extends Component
 
     public bool $historyOpen = false;
 
-    public function mount(Page $page): void
+    public function mount(ThemeTemplate $template): void
     {
-        $this->page = $page;
-        $raw = is_array($page->blocks) ? $page->blocks : [];
+        $this->template = $template;
+        $raw = is_array($template->blocks) ? $template->blocks : [];
         $this->sections = self::normalize($raw);
     }
 
@@ -604,28 +603,7 @@ class PageBuilder extends Component
 
     public function persist(): void
     {
-        $previous = $this->page->blocks;
-        $this->page->update(['blocks' => $this->sections]);
-        $this->snapshotRevision($previous);
-    }
-
-    protected function snapshotRevision(?array $previous): void
-    {
-        if (! is_array($previous) || $previous === $this->sections) {
-            return;
-        }
-        PageRevision::create([
-            'page_id' => $this->page->id,
-            'staff_id' => auth('staff')->id(),
-            'blocks' => $previous,
-        ]);
-        $keepIds = PageRevision::where('page_id', $this->page->id)
-            ->orderByDesc('id')
-            ->limit(20)
-            ->pluck('id');
-        PageRevision::where('page_id', $this->page->id)
-            ->whereNotIn('id', $keepIds)
-            ->delete();
+        $this->template->update(['blocks' => $this->sections]);
     }
 
     public function openHistory(): void
@@ -640,17 +618,8 @@ class PageBuilder extends Component
 
     public function restoreRevision(int $revisionId): void
     {
-        $rev = PageRevision::where('page_id', $this->page->id)->find($revisionId);
-        if (! $rev) {
-            return;
-        }
-        $previous = $this->page->blocks;
-        $this->sections = self::normalize($rev->blocks ?? []);
-        $this->page->update(['blocks' => $this->sections]);
-        $this->snapshotRevision($previous);
+        // Theme templates no conservan revisiones en este primer corte.
         $this->historyOpen = false;
-        $this->editingWidgetId = null;
-        $this->editingSectionId = null;
     }
 
     #[On('clipboard-paste-section')]
@@ -703,16 +672,11 @@ class PageBuilder extends Component
 
     public function render()
     {
-        $revisions = PageRevision::where('page_id', $this->page->id)
-            ->orderByDesc('id')
-            ->limit(20)
-            ->get(['id', 'created_at', 'staff_id']);
-
         return view('livewire.admin.page-builder', [
             'widgetTypes' => self::widgetTypes(),
             'sectionLayouts' => self::sectionLayouts(),
             'templatesList' => PageTemplate::where('kind', 'section')->orderBy('name')->get(['id', 'name']),
-            'revisionsList' => $revisions,
+            'revisionsList' => collect(),
             'testimonialsList' => \App\Models\Testimonial::orderByDesc('featured')->orderBy('sort')->get(['id', 'name', 'text']),
             'collectionsList' => \Lunar\Models\Collection::with('urls')->get()->map(fn ($c) => (object) [
                 'id' => $c->id,
