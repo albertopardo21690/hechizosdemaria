@@ -8,6 +8,9 @@
     $hasCustomSettings = $bg !== 'transparent' || $padding !== 'md' || $fullWidth;
 
     $renderWidget = function (array $widget) {
+        if (! \App\Support\VisibilityEvaluator::shouldShow($widget['visibility'] ?? [])) {
+            return null;
+        }
         $style = $widget['style'] ?? [];
         $advanced = $widget['advanced'] ?? [];
         $motion = $widget['motion'] ?? [];
@@ -74,12 +77,14 @@
 @if($isSingleCol && ! $hasCustomSettings)
     @foreach(($cols[0]['widgets'] ?? []) as $widget)
         @php $meta = $renderWidget($widget); @endphp
-        @if($meta['classes'] || $meta['attrs'])
-            <div class="{{ $meta['classes'] }}" {!! $meta['attrs'] !!}>
+        @if($meta !== null)
+            @if($meta['classes'] || $meta['attrs'])
+                <div class="{{ $meta['classes'] }}" {!! $meta['attrs'] !!}>
+                    @includeIf('front.blocks.'.$widget['type'], ['block' => $widget])
+                </div>
+            @else
                 @includeIf('front.blocks.'.$widget['type'], ['block' => $widget])
-            </div>
-        @else
-            @includeIf('front.blocks.'.$widget['type'], ['block' => $widget])
+            @endif
         @endif
     @endforeach
 @else
@@ -107,9 +112,11 @@
                         <div class="space-y-4">
                             @foreach($col['widgets'] ?? [] as $widget)
                                 @php $meta = $renderWidget($widget); @endphp
-                                <div class="{{ $meta['classes'] }}" {!! $meta['attrs'] !!}>
-                                    @includeIf('front.blocks.'.$widget['type'], ['block' => $widget])
-                                </div>
+                                @if($meta !== null)
+                                    <div class="{{ $meta['classes'] }}" {!! $meta['attrs'] !!}>
+                                        @includeIf('front.blocks.'.$widget['type'], ['block' => $widget])
+                                    </div>
+                                @endif
                             @endforeach
                         </div>
                     @endforeach

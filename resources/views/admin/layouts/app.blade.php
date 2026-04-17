@@ -40,6 +40,7 @@
                         ['Theme Builder', 'admin.theme-builder.index', 'layout'],
                         ['Envíos formularios', 'admin.form-submissions.index', 'mail'],
                         ['Fuentes', 'admin.custom-fonts.index', 'type'],
+                        ['Design Tokens', 'admin.design-tokens.index', 'palette'],
                     ];
                     $icons = [
                         'chart' => 'M3 3v18h18M7 14v3m5-8v8m5-5v5',
@@ -54,6 +55,7 @@
                         'layout' => 'M4 5a2 2 0 012-2h12a2 2 0 012 2v2H4V5zm0 4h16v10a2 2 0 01-2 2H6a2 2 0 01-2-2V9zm4 3v6M12 12v6m4-6v6',
                         'mail' => 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
                         'type' => 'M4 7V4h16v3M9 20h6M12 4v16',
+                        'palette' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
                     ];
                 @endphp
 

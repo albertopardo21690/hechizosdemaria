@@ -491,6 +491,42 @@
                             <label class="flex items-center gap-1"><input type="checkbox" wire:model.lazy="{{ $path }}.advanced.hide_desktop" class="accent-pink-500"> Escritorio</label>
                         </div>
                     </div>
+                    <hr class="border-pink-100">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-600 mb-2">Condiciones de visibilidad</label>
+                        <p class="text-[10px] text-gray-400 mb-2">Si activas condiciones, el widget solo se muestra cuando se cumplen. Vacío = siempre visible.</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" wire:model.lazy="{{ $path }}.visibility.logged_in_only" class="accent-pink-500">
+                                Solo usuarios registrados
+                            </label>
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" wire:model.lazy="{{ $path }}.visibility.guest_only" class="accent-pink-500">
+                                Solo visitantes (no logueados)
+                            </label>
+                            <label>
+                                <span class="block text-[10px] uppercase tracking-widest text-gray-600 mb-1">Solo estos días (vacío = todos)</span>
+                                <div class="flex flex-wrap gap-2 text-[10px]">
+                                    @foreach(['lun' => 1, 'mar' => 2, 'mié' => 3, 'jue' => 4, 'vie' => 5, 'sáb' => 6, 'dom' => 0] as $label => $val)
+                                        <label class="flex items-center gap-1">
+                                            <input type="checkbox" wire:model.lazy="{{ $path }}.visibility.days" value="{{ $val }}" class="accent-pink-500"> {{ $label }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label>
+                                    <span class="block text-[10px] uppercase tracking-widest text-gray-600 mb-1">Desde fecha</span>
+                                    <input type="date" wire:model.lazy="{{ $path }}.visibility.date_from" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-xs">
+                                </label>
+                                <label>
+                                    <span class="block text-[10px] uppercase tracking-widest text-gray-600 mb-1">Hasta fecha</span>
+                                    <input type="date" wire:model.lazy="{{ $path }}.visibility.date_to" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-xs">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="border-pink-100">
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-600 mb-1">ID del widget</label>
                         <input type="text" readonly value="{{ $w['id'] }}" class="w-full border border-gray-200 bg-gray-50 rounded-md px-3 py-2 font-mono text-[11px] text-gray-500">

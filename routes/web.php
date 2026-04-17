@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BrandingController;
 use App\Http\Controllers\Admin\CollectionController as AdminCollectionController;
 use App\Http\Controllers\Admin\CustomFontController as AdminCustomFontController;
+use App\Http\Controllers\Admin\DesignTokenController as AdminDesignTokenController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FormSubmissionController as AdminFormSubmissionController;
@@ -78,6 +79,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('form-submissions', [AdminFormSubmissionController::class, 'index'])->name('form-submissions.index');
         Route::get('form-submissions/{submission}', [AdminFormSubmissionController::class, 'show'])->name('form-submissions.show');
         Route::delete('form-submissions/{submission}', [AdminFormSubmissionController::class, 'destroy'])->name('form-submissions.destroy');
+
+        // Design tokens
+        Route::get('design-tokens', [AdminDesignTokenController::class, 'index'])->name('design-tokens.index');
+        Route::put('design-tokens', [AdminDesignTokenController::class, 'update'])->name('design-tokens.update');
 
         // Custom fonts
         Route::get('custom-fonts', [AdminCustomFontController::class, 'index'])->name('custom-fonts.index');

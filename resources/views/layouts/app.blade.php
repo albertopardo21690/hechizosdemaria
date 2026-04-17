@@ -14,6 +14,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @include('partials.custom-fonts')
+    @include('partials.design-tokens-css')
 </head>
 <body class="antialiased">
 
