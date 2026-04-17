@@ -92,6 +92,24 @@
                     <span class="text-2xl font-bold text-gold-400">{{ number_format($total + $shipping, 2, ',', '.') }} €</span>
                 </div>
 
+                {{-- CUPÓN --}}
+                <div class="mb-4">
+                    @if($couponMessage)
+                        <div class="p-3 bg-green-50 border border-green-200 rounded-md text-sm text-green-700 mb-2 flex items-center justify-between">
+                            <span>{{ $couponMessage }} (-{{ number_format($couponDiscount, 2, ',', '.') }} €)</span>
+                            <button type="button" wire:click="removeCoupon" class="text-red-500 text-xs font-semibold hover:text-red-700">Quitar</button>
+                        </div>
+                    @else
+                        <div class="flex gap-2">
+                            <input type="text" wire:model.live="couponCode" placeholder="Código cupón" class="flex-1 border border-pink-200 rounded-md px-3 py-2 text-sm focus:border-pink-500 focus:outline-none">
+                            <button type="button" wire:click="applyCoupon" class="bg-pink-500 hover:bg-pink-600 text-white text-xs uppercase tracking-widest font-semibold px-4 py-2 rounded-md">Aplicar</button>
+                        </div>
+                        @if($couponError)
+                            <p class="text-xs text-red-600 mt-1">{{ $couponError }}</p>
+                        @endif
+                    @endif
+                </div>
+
                 @if(!$freeShipping)
                     <div class="mb-4 p-3 bg-gold-400/10 border border-gold-400/30 rounded-md text-xs text-pink-700">
                         Anade {{ number_format(50 - $sub, 2, ',', '.') }} € mas para envio gratis

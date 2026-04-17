@@ -41,7 +41,7 @@ class CheckoutForm extends Component
     #[Validate('required|exists:lunar_countries,id')]
     public ?int $countryId = null;
 
-    #[Validate('required|in:stripe,paypal,redsys')]
+    #[Validate('required|in:stripe,paypal,redsys,bizum')]
     public string $paymentMethod = 'stripe';
 
     public bool $shippingSameAsBilling = true;

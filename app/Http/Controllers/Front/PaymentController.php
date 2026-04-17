@@ -16,6 +16,7 @@ class PaymentController extends Controller
             'stripe' => $this->startStripe($order),
             'paypal' => $this->startPaypal($order),
             'redsys' => $this->startRedsys($order),
+            'bizum' => $this->startBizum($order),
             default => abort(404),
         };
     }
@@ -59,5 +60,12 @@ class PaymentController extends Controller
             'gateway' => 'Redsys',
             'message' => 'La integracion con Redsys se activa en Fase 5.5.',
         ]);
+    }
+
+    protected function startBizum(Order $order)
+    {
+        $order->update(['status' => 'awaiting-payment']);
+
+        return view('front.pages.bizum-instructions', compact('order'));
     }
 }

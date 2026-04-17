@@ -97,8 +97,15 @@
                         <label class="flex items-center gap-4 p-4 bg-mystic-950/60 border border-gold-500/20 rounded-md cursor-pointer hover:border-gold-400 transition">
                             <input type="radio" wire:model="paymentMethod" value="redsys" class="accent-gold-400">
                             <div>
-                                <div class="font-semibold">Bizum / Tarjeta (Redsys)</div>
-                                <div class="text-xs text-gray-600">TPV bancario espanol, acepta Bizum</div>
+                                <div class="font-semibold">Tarjeta (Redsys)</div>
+                                <div class="text-xs text-gray-600">TPV bancario español</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-4 p-4 bg-mystic-950/60 border border-gold-500/20 rounded-md cursor-pointer hover:border-gold-400 transition">
+                            <input type="radio" wire:model="paymentMethod" value="bizum" class="accent-gold-400">
+                            <div>
+                                <div class="font-semibold">Bizum</div>
+                                <div class="text-xs text-gray-600">Pago directo al móvil de María José</div>
                             </div>
                         </label>
                     </div>
