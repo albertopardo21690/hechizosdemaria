@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\BookingStatusChanged;
 use App\Models\Booking;
 use App\Models\BookingService;
+use App\Services\GoogleCalendarService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -53,6 +54,21 @@ class BookingController extends Controller
         if ($oldStatus !== $data['status'] && $booking->customer_email) {
             try {
                 Mail::to($booking->customer_email)->send(new BookingStatusChanged($booking));
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+
+        // Google Calendar sync
+        if ($data['status'] === 'accepted') {
+            try {
+                app(GoogleCalendarService::class)->syncBooking($booking);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        } elseif (in_array($data['status'], ['cancelled', 'rejected'])) {
+            try {
+                app(GoogleCalendarService::class)->deleteEvent($booking);
             } catch (\Throwable $e) {
                 report($e);
             }

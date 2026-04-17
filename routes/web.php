@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CustomFontController as AdminCustomFontController
 use App\Http\Controllers\Admin\DesignTokenController as AdminDesignTokenController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GoogleCalendarController;
 use App\Http\Controllers\Admin\FormSubmissionController as AdminFormSubmissionController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
@@ -103,6 +104,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('booking-services/{service}', [AdminBookingController::class, 'updateService'])->name('bookings.services.update');
         Route::delete('booking-services/{service}', [AdminBookingController::class, 'destroyService'])->name('bookings.services.destroy');
 
+        // Google Calendar
+        Route::get('google-calendar', [GoogleCalendarController::class, 'index'])->name('google-calendar.index');
+        Route::post('google-calendar/credentials', [GoogleCalendarController::class, 'saveCredentials'])->name('google-calendar.save');
+        Route::get('google-calendar/authorize', [GoogleCalendarController::class, 'authorize'])->name('google-calendar.authorize');
+        Route::get('google-calendar/callback', [GoogleCalendarController::class, 'callback'])->name('google-calendar.callback');
+        Route::post('google-calendar/disconnect', [GoogleCalendarController::class, 'disconnect'])->name('google-calendar.disconnect');
+
         // Theme Builder
         Route::get('theme-builder', [AdminThemeBuilderController::class, 'index'])->name('theme-builder.index');
         Route::post('theme-builder', [AdminThemeBuilderController::class, 'create'])->name('theme-builder.create');
@@ -149,6 +157,9 @@ Route::middleware('auth:customer')->prefix('mi-cuenta')->name('account.')->group
     Route::get('/', [AccountController::class, 'dashboard'])->name('dashboard');
     Route::get('/pedidos', [AccountController::class, 'orders'])->name('orders');
     Route::get('/pedidos/{reference}', [AccountController::class, 'orderDetail'])->name('order');
+    Route::get('/reservas', [AccountController::class, 'bookings'])->name('bookings');
+    Route::get('/reservas/{reference}', [AccountController::class, 'bookingDetail'])->name('booking');
+    Route::post('/reservas/{reference}/cancelar', [AccountController::class, 'cancelBooking'])->name('booking.cancel');
     Route::get('/perfil', [AccountController::class, 'profile'])->name('profile');
     Route::put('/perfil', [AccountController::class, 'updateProfile'])->name('profile.update');
 });

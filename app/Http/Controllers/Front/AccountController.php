@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,6 +99,41 @@ class AccountController extends Controller
             ->firstOrFail();
 
         return view('front.account.order-detail', compact('customer', 'order'));
+    }
+
+    public function bookings()
+    {
+        $customer = Auth::guard('customer')->user();
+        $bookings = Booking::where('customer_email', $customer->email)
+            ->with('service')
+            ->orderByDesc('created_at')
+            ->paginate(15);
+
+        return view('front.account.bookings', compact('customer', 'bookings'));
+    }
+
+    public function bookingDetail(string $reference)
+    {
+        $customer = Auth::guard('customer')->user();
+        $booking = Booking::where('reference', $reference)
+            ->where('customer_email', $customer->email)
+            ->with('service')
+            ->firstOrFail();
+
+        return view('front.account.booking-detail', compact('customer', 'booking'));
+    }
+
+    public function cancelBooking(string $reference)
+    {
+        $customer = Auth::guard('customer')->user();
+        $booking = Booking::where('reference', $reference)
+            ->where('customer_email', $customer->email)
+            ->whereIn('status', ['pending', 'accepted'])
+            ->firstOrFail();
+
+        $booking->cancel();
+
+        return back()->with('status', 'Reserva cancelada.');
     }
 
     public function profile()

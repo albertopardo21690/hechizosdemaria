@@ -2,6 +2,7 @@
 <nav class="space-y-1">
     <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 rounded-md text-sm {{ $active('account.dashboard') }}">Resumen</a>
     <a href="{{ route('account.orders') }}" class="block px-4 py-2 rounded-md text-sm {{ $active('account.orders') }} {{ $active('account.order') }}">Mis pedidos</a>
+    <a href="{{ route('account.bookings') }}" class="block px-4 py-2 rounded-md text-sm {{ $active('account.bookings') }} {{ $active('account.booking') }}">Mis reservas</a>
     <a href="{{ route('account.profile') }}" class="block px-4 py-2 rounded-md text-sm {{ $active('account.profile') }}">Mi perfil</a>
     <form method="POST" action="{{ route('customer.logout') }}" class="mt-4 pt-4 border-t border-pink-100">
         @csrf
