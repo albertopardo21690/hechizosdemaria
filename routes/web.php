@@ -14,7 +14,9 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Admin\ThemeBuilderController as AdminThemeBuilderController;
+use App\Http\Controllers\Front\AccountController;
 use App\Http\Controllers\Front\CollectionController;
+use App\Http\Controllers\Front\DownloadController;
 use App\Http\Controllers\Front\FormController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\PageController;
@@ -121,6 +123,22 @@ Route::view('/checkout', 'front.pages.checkout')->name('checkout');
 Route::view('/contacto', 'front.pages.contact')->name('contact');
 
 Route::post('/forms/submit', [FormController::class, 'submit'])->name('forms.submit');
+Route::get('/download/{token}', [DownloadController::class, 'serve'])->name('download.serve')->middleware('signed');
+
+// Customer auth
+Route::get('/login', [AccountController::class, 'showLogin'])->name('customer.login');
+Route::post('/login', [AccountController::class, 'login'])->name('customer.login.post');
+Route::get('/registro', [AccountController::class, 'showRegister'])->name('customer.register');
+Route::post('/registro', [AccountController::class, 'register'])->name('customer.register.post');
+Route::post('/logout-customer', [AccountController::class, 'logout'])->name('customer.logout');
+
+Route::middleware('auth:customer')->prefix('mi-cuenta')->name('account.')->group(function () {
+    Route::get('/', [AccountController::class, 'dashboard'])->name('dashboard');
+    Route::get('/pedidos', [AccountController::class, 'orders'])->name('orders');
+    Route::get('/pedidos/{reference}', [AccountController::class, 'orderDetail'])->name('order');
+    Route::get('/perfil', [AccountController::class, 'profile'])->name('profile');
+    Route::put('/perfil', [AccountController::class, 'updateProfile'])->name('profile.update');
+});
 
 Route::get('/pagar/{gateway}/{reference}', [PaymentController::class, 'start'])->name('payment.start');
 Route::get('/pedido/{reference}/exito', [PaymentController::class, 'success'])->name('payment.success');
