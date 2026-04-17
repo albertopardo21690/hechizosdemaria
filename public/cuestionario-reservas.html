@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuración del Sistema de Reservas · Hechizos de María</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Lato',sans-serif;background:linear-gradient(180deg,#fff 0%,#fdf2f8 100%);min-height:100vh;color:#374151}
+.wrap{max-width:720px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:'Cinzel',serif;color:#be185d;font-size:28px;text-align:center;margin-bottom:8px}
+.sub{text-align:center;color:#6b7280;font-size:14px;margin-bottom:40px}
+.q{background:#fff;border:1px solid #fce7f3;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(190,24,93,.06)}
+.q-num{font-family:'Cinzel',serif;color:#ec4899;font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+.q h2{font-size:17px;font-weight:700;color:#1f2937;margin-bottom:16px;line-height:1.4}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid #fce7f3;border-radius:10px;cursor:pointer;transition:all .15s;background:#fff}
+.opt:hover{border-color:#f9a8d4;background:#fdf2f8}
+.opt.selected{border-color:#ec4899;background:#fdf2f8;box-shadow:0 0 0 3px rgba(236,72,153,.15)}
+.opt input{display:none}
+.check{width:22px;height:22px;border:2px solid #d1d5db;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px}
+.opt.selected .check{background:#ec4899;border-color:#ec4899}
+.opt.selected .check::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
+.radio .check{border-radius:50%}
+.radio .opt.selected .check::after{content:'';width:10px;height:10px;background:#fff;border-radius:50%;display:block}
+.opt-text{flex:1}
+.opt-label{font-weight:700;color:#1f2937;font-size:15px}
+.opt-desc{color:#6b7280;font-size:13px;margin-top:2px}
+.btn-wrap{text-align:center;margin-top:40px}
+.btn{background:linear-gradient(135deg,#ec4899,#db2777);color:#fff;border:none;font-family:'Cinzel',serif;font-size:15px;letter-spacing:.1em;padding:16px 48px;border-radius:12px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(236,72,153,.3)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.result{display:none;background:#fff;border:2px solid #ec4899;border-radius:16px;padding:32px;margin-top:32px;text-align:center}
+.result h2{font-family:'Cinzel',serif;color:#be185d;margin-bottom:16px;font-size:22px}
+.result pre{text-align:left;background:#fdf2f8;border:1px solid #fce7f3;border-radius:8px;padding:20px;font-size:13px;white-space:pre-wrap;word-break:break-word;color:#374151;line-height:1.6;max-height:400px;overflow:auto}
+.result .copy-btn{margin-top:16px;background:#ec4899;color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.result .copy-btn:hover{background:#db2777}
+.copied{color:#16a34a;font-size:13px;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🌙 Sistema de Reservas</h1>
+  <p class="sub">Configura cómo funcionarán las citas en hechizosdemaria.com.<br>Selecciona las opciones y pulsa el botón final.</p>
+
+  <div class="q radio" data-key="proveedor">
+    <div class="q-num">Pregunta 1 de 9</div>
+    <h2>¿Quién da las citas?</h2>
+    <div class="opts">
+      <div class="opt"><input type="radio" name="q1" value="solo_maria"><div class="check"></div><div class="opt-text"><div class="opt-label">Solo María José</div><div class="opt-desc">Ella es la única que da lecturas, rituales y servicios</div></div></div>
+      <div class="opt"><input type="radio" name="q1" value="equipo"><div class="check"></div><div class="opt-text"><div class="opt-label">María José + otras personas</div><div class="opt-desc">Hay más profesionales dando servicios</div></div></div>
+    </div>
+  </div>
+
+  <div class="q" data-key="servicios">
+    <div class="q-num">Pregunta 2 de 9</div>
+    <h2>¿Qué servicios se pueden reservar?</h2>
+    <div class="opts">
+      <div class="opt"><input type="checkbox" name="q2" value="productos_tienda"><div class="check"></div><div class="opt-text"><div class="opt-label">Los productos de la tienda</div><div class="opt-desc">Lectura Standard, Urgente 24h, Ritual de amarre, etc.</div></div></div>
+      <div class="opt"><input type="checkbox" name="q2" value="servicios_exclusivos"><div class="check"></div><div class="opt-text"><div class="opt-label">Servicios exclusivos de cita</div><div class="opt-desc">Consultas que no están en la tienda como productos</div></div></div>
+      <div class="opt"><input type="checkbox" name="q2" value="talleres"><div class="check"></div><div class="opt-text"><div class="opt-label">Talleres y sesiones grupales</div><div class="opt-desc">Meditaciones, cursos, eventos con plazas</div></div></div>
+    </div>
+  </div>
+
+  <div class="q radio" data-key="horario">
+    <div class="q-num">Pregunta 3 de 9</div>
+    <h2>¿Cómo es el horario de atención?</h2>
+    <div class="opts">
+      <div class="opt"><input type="radio" name="q3" value="fijo"><div class="check"></div><div class="opt-text"><div class="opt-label">Horario fijo semanal</div><div class="opt-desc">Ej: Lunes a Viernes de 10:00 a 20:00</div></div></div>
+      <div class="opt"><input type="radio" name="q3" value="variable"><div class="check"></div><div class="opt-text"><div class="opt-label">Horario variable</div><div class="opt-desc">María José marca disponibilidad día a día</div></div></div>
+      <div class="opt"><input type="radio" name="q3" value="sin_horario"><div class="check"></div><div class="opt-text"><div class="opt-label">Sin horario fijo</div><div class="opt-desc">Acepta/rechaza cada solicitud manualmente</div></div></div>
+    </div>
+  </div>
+
+  <div class="q radio" data-key="duracion">
+    <div class="q-num">Pregunta 4 de 9</div>
+    <h2>¿Las citas tienen duración fija?</h2>
+    <div class="opts">
+      <div class="opt"><input type="radio" name="q4" value="fija"><div class="check"></div><div class="opt-text"><div class="opt-label">Sí, cada servicio tiene duración fija</div><div class="opt-desc">Ej: Lectura Standard = 30min, Ritual = 60min</div></div></div>
+      <div class="opt"><input type="radio" name="q4" value="libre"><div class="check"></div><div class="opt-text"><div class="opt-label">Duración libre</div><div class="opt-desc">La cita dura lo que haga falta</div></div></div>
+      <div class="opt"><input type="radio" name="q4" value="no_aplica"><div class="check"></div><div class="opt-text"><div class="opt-label">No aplica — no son citas en directo</div><div class="opt-desc">María José entrega el resultado por escrito o audio</div></div></div>
+    </div>
+  </div>
+
+  <div class="q radio" data-key="flujo">
+    <div class="q-num">Pregunta 5 de 9</div>
+    <h2>¿Qué pasa después de que el cliente compra?</h2>
+    <div class="opts">
+      <div class="opt"><input type="radio" name="q5" value="reserva_online"><div class="check"></div><div class="opt-text"><div class="opt-label">Elige fecha/hora online al comprar</div><div class="opt-desc">Compra → selecciona slot disponible → confirmación automática</div></div></div>
+      <div class="opt"><input type="radio" name="q5" value="whatsapp"><div class="check"></div><div class="opt-text"><div class="opt-label">WhatsApp para coordinar</div><div class="opt-desc">Compra → María José contacta para acordar la hora (flujo actual)</div></div></div>
+      <div class="opt"><input type="radio" name="q5" value="ambos"><div class="check"></div><div class="opt-text"><div class="opt-label">Ambas opciones</div><div class="opt-desc">El cliente puede reservar online O ir por WhatsApp</div></div></div>
+      <div class="opt"><input type="radio" name="q5" value="reserva_primero"><div class="check"></div><div class="opt-text"><div class="opt-label">Primero reserva hora, luego paga</div><div class="opt-desc">Elige hora gratis → paga → confirmación</div></div></div>
+    </div>
+  </div>
+
+  <div class="q" data-key="medio">
+    <div class="q-num">Pregunta 6 de 9</div>
+    <h2>¿Cómo se hacen las lecturas/rituales?</h2>
+    <div class="opts">
+      <div class="opt"><input type="checkbox" name="q6" value="videollamada"><div class="check"></div><div class="opt-text"><div class="opt-label">Videollamada (Zoom / Google Meet)</div></div></div>
+      <div class="opt"><input type="checkbox" name="q6" value="telefono"><div class="check"></div><div class="opt-text"><div class="opt-label">Llamada telefónica</div></div></div>
+      <div class="opt"><input type="checkbox" name="q6" value="whatsapp_directo"><div class="check"></div><div class="opt-text"><div class="opt-label">Por WhatsApp (audio/video/texto)</div></div></div>
+      <div class="opt"><input type="checkbox" name="q6" value="presencial"><div class="check"></div><div class="opt-text"><div class="opt-label">Presencial</div></div></div>
+      <div class="opt"><input type="checkbox" name="q6" value="entrega_resultado"><div class="check"></div><div class="opt-text"><div class="opt-label">No es en directo — entrega resultado por escrito/audio</div></div></div>
+    </div>
+  </div>
+
+  <div class="q radio" data-key="calendario">
+    <div class="q-num">Pregunta 7 de 9</div>
+    <h2>¿Sincronizar con calendario externo?</h2>
+    <div class="opts">
+      <div class="opt"><input type="radio" name="q7" value="google"><div class="check"></div><div class="opt-text"><div class="opt-label">Sí, Google Calendar</div></div></div>
+      <div class="opt"><input type="radio" name="q7" value="outlook"><div class="check"></div><div class="opt-text"><div class="opt-label">Sí, Outlook</div></div></div>
+      <div class="opt"><input type="radio" name="q7" value="no"><div class="check"></div><div class="opt-text"><div class="opt-label">No, solo el calendario del admin</div></div></div>
+      <div class="opt"><input type="radio" name="q7" value="no_se"><div class="check"></div><div class="opt-text"><div class="opt-label">No sé — preguntar a María José</div></div></div>
+    </div>
+  </div>
+
+  <div class="q radio" data-key="eventos">
+    <div class="q-num">Pregunta 8 de 9</div>
+    <h2>¿Eventos grupales? (talleres, meditaciones...)</h2>
+    <div class="opts">
+      <div class="opt"><input type="radio" name="q8" value="si"><div class="check"></div><div class="opt-text"><div class="opt-label">Sí, hay eventos con plazas limitadas</div></div></div>
+      <div class="opt"><input type="radio" name="q8" value="no"><div class="check"></div><div class="opt-text"><div class="opt-label">No, solo citas individuales</div></div></div>
+      <div class="opt"><input type="radio" name="q8" value="futuro"><div class="check"></div><div class="opt-text"><div class="opt-label">Ahora no, pero en el futuro sí</div></div></div>
+    </div>
+  </div>
+
+  <div class="q radio" data-key="alcance">
+    <div class="q-num">Pregunta 9 de 9</div>
+    <h2>¿Qué alcance quieres para el sistema?</h2>
+    <div class="opts">
+      <div class="opt"><input type="radio" name="q9" value="mvp"><div class="check"></div><div class="opt-text"><div class="opt-label">MVP funcional</div><div class="opt-desc">Servicio → fecha/hora → pagar → confirmar. Iteramos después.</div></div></div>
+      <div class="opt"><input type="radio" name="q9" value="intermedio"><div class="check"></div><div class="opt-text"><div class="opt-label">Intermedio</div><div class="opt-desc">MVP + notificaciones email + panel cliente + calendar sync</div></div></div>
+      <div class="opt"><input type="radio" name="q9" value="completo"><div class="check"></div><div class="opt-text"><div class="opt-label">Sistema completo tipo Amelia</div><div class="opt-desc">Todas las features del informe: paquetes, recursos, SMS, Zoom...</div></div></div>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn" id="genBtn" disabled>Generar configuración</button>
+  </div>
+
+  <div class="result" id="result">
+    <h2>✓ Configuración lista</h2>
+    <p style="color:#6b7280;font-size:14px;margin-bottom:16px">Copia este texto y pégalo en la conversación con Claude Code.</p>
+    <pre id="output"></pre>
+    <button class="copy-btn" id="copyBtn">Copiar al portapapeles</button>
+    <div class="copied" id="copied">¡Copiado!</div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const input = opt.querySelector('input');
+    const q = opt.closest('.q');
+    if (input.type === 'radio') {
+      q.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      input.checked = true;
+    } else {
+      opt.classList.toggle('selected');
+      input.checked = !input.checked;
+    }
+    checkReady();
+  });
+});
+
+function checkReady() {
+  const radios = document.querySelectorAll('.q.radio');
+  let ready = true;
+  radios.forEach(q => {
+    const name = q.querySelector('input[type=radio]').name;
+    if (!document.querySelector(`input[name="${name}"]:checked`)) ready = false;
+  });
+  const checks = document.querySelectorAll('.q:not(.radio)');
+  checks.forEach(q => {
+    if (!q.querySelector('input:checked')) ready = false;
+  });
+  document.getElementById('genBtn').disabled = !ready;
+}
+
+document.getElementById('genBtn').addEventListener('click', () => {
+  const answers = {};
+  document.querySelectorAll('.q').forEach(q => {
+    const key = q.dataset.key;
+    const checked = q.querySelectorAll('input:checked');
+    if (checked.length === 1) answers[key] = checked[0].value;
+    else answers[key] = Array.from(checked).map(i => i.value);
+  });
+
+  const lines = [
+    '=== CONFIGURACIÓN SISTEMA DE RESERVAS ===',
+    '',
+    `1. Proveedor: ${answers.proveedor}`,
+    `2. Servicios: ${Array.isArray(answers.servicios) ? answers.servicios.join(', ') : answers.servicios}`,
+    `3. Horario: ${answers.horario}`,
+    `4. Duración: ${answers.duracion}`,
+    `5. Flujo post-compra: ${answers.flujo}`,
+    `6. Medio: ${Array.isArray(answers.medio) ? answers.medio.join(', ') : answers.medio}`,
+    `7. Calendario: ${answers.calendario}`,
+    `8. Eventos grupales: ${answers.eventos}`,
+    `9. Alcance: ${answers.alcance}`,
+    '',
+    'Construye el sistema de reservas con esta configuración.'
+  ];
+
+  const text = lines.join('\n');
+  document.getElementById('output').textContent = text;
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const text = document.getElementById('output').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    document.getElementById('copied').style.display = 'block';
+    setTimeout(() => document.getElementById('copied').style.display = 'none', 2000);
+  });
+});
+</script>
+</body>
+</html>

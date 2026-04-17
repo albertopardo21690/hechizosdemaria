@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuth;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BrandingController;
 use App\Http\Controllers\Admin\CollectionController as AdminCollectionController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\CustomFontController as AdminCustomFontController;
 use App\Http\Controllers\Admin\DesignTokenController as AdminDesignTokenController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
@@ -91,6 +92,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('custom-fonts', [AdminCustomFontController::class, 'store'])->name('custom-fonts.store');
         Route::delete('custom-fonts/{customFont}', [AdminCustomFontController::class, 'destroy'])->name('custom-fonts.destroy');
 
+        // Bookings / Reservas
+        Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+        Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
+        Route::put('bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.status');
+        Route::get('booking-services', [AdminBookingController::class, 'services'])->name('bookings.services');
+        Route::get('booking-services/create', [AdminBookingController::class, 'createService'])->name('bookings.services.create');
+        Route::post('booking-services', [AdminBookingController::class, 'storeService'])->name('bookings.services.store');
+        Route::get('booking-services/{service}/edit', [AdminBookingController::class, 'editService'])->name('bookings.services.edit');
+        Route::put('booking-services/{service}', [AdminBookingController::class, 'updateService'])->name('bookings.services.update');
+        Route::delete('booking-services/{service}', [AdminBookingController::class, 'destroyService'])->name('bookings.services.destroy');
+
         // Theme Builder
         Route::get('theme-builder', [AdminThemeBuilderController::class, 'index'])->name('theme-builder.index');
         Route::post('theme-builder', [AdminThemeBuilderController::class, 'create'])->name('theme-builder.create');
@@ -121,6 +133,7 @@ Route::get('/categoria-producto/{slug}', fn (string $slug) => redirect()->route(
 Route::view('/carrito', 'front.pages.cart')->name('cart');
 Route::view('/checkout', 'front.pages.checkout')->name('checkout');
 Route::view('/contacto', 'front.pages.contact')->name('contact');
+Route::view('/reservar', 'front.pages.booking')->name('booking');
 
 Route::post('/forms/submit', [FormController::class, 'submit'])->name('forms.submit');
 Route::get('/download/{token}', [DownloadController::class, 'serve'])->name('download.serve')->middleware('signed');

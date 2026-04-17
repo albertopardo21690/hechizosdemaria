@@ -38,6 +38,8 @@
                         ['Blog', 'admin.blog.index', 'newspaper'],
                         ['Branding', 'admin.branding.index', 'image'],
                         ['Theme Builder', 'admin.theme-builder.index', 'layout'],
+                        ['Reservas', 'admin.bookings.index', 'calendar'],
+                        ['Serv. reservables', 'admin.bookings.services', 'bookmark'],
                         ['Envíos formularios', 'admin.form-submissions.index', 'mail'],
                         ['Fuentes', 'admin.custom-fonts.index', 'type'],
                         ['Design Tokens', 'admin.design-tokens.index', 'palette'],
@@ -56,6 +58,8 @@
                         'mail' => 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
                         'type' => 'M4 7V4h16v3M9 20h6M12 4v16',
                         'palette' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
+                        'calendar' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                        'bookmark' => 'M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z',
                     ];
                 @endphp
 
