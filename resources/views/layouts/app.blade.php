@@ -47,6 +47,7 @@
     @else
         @include('front.partials.footer')
     @endif
+    <livewire:quick-add />
     @include('front.partials.whatsapp-float')
     @include('front.partials.cookie-consent')
 

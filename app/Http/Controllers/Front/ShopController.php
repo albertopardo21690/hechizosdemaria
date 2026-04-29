@@ -11,13 +11,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $products = Product::where('status', 'published')
-            ->with(['variants.prices.currency', 'media'])
-            ->paginate(24);
-
-        $collections = Collection::with('urls')->orderBy('id')->get();
-
-        return view('front.shop.index', compact('products', 'collections'));
+        return view('front.shop.index');
     }
 
     public function show(string $slug)
@@ -52,10 +46,11 @@ class ShopController extends Controller
         $related = Product::where('status', 'published')
             ->where('id', '!=', $product->id)
             ->whereHas('collections', fn ($q) => $q->whereIn('lunar_collections.id', $product->collections->pluck('id')))
-            ->with(['variants.prices.currency', 'media'])
-            ->inRandomOrder()
+            ->with(['variants.prices.currency', 'media', 'urls', 'collections'])
+            ->get()
+            ->sortBy(fn ($p) => $p->variants->first()?->prices->firstWhere('currency.code', 'EUR')?->price->decimal ?? PHP_INT_MAX)
             ->take(4)
-            ->get();
+            ->values();
 
         \View::share('themeContext', ['product' => $product]);
         $productTemplate = ThemeTemplate::activeFor('product_single', ['product' => $product]);

@@ -36,6 +36,7 @@
                         ['Paginas', 'admin.pages.index', 'document'],
                         ['Testimonios', 'admin.testimonials.index', 'chat'],
                         ['Blog', 'admin.blog.index', 'newspaper'],
+                        ['Archivos', 'admin.media.index', 'folder'],
                         ['Branding', 'admin.branding.index', 'image'],
                         ['Theme Builder', 'admin.theme-builder.index', 'layout'],
                         ['Reservas', 'admin.bookings.index', 'calendar'],
@@ -57,6 +58,7 @@
                         'layout' => 'M4 5a2 2 0 012-2h12a2 2 0 012 2v2H4V5zm0 4h16v10a2 2 0 01-2 2H6a2 2 0 01-2-2V9zm4 3v6M12 12v6m4-6v6',
                         'mail' => 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
                         'type' => 'M4 7V4h16v3M9 20h6M12 4v16',
+                        'folder' => 'M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z',
                         'palette' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
                         'calendar' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
                         'bookmark' => 'M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z',
@@ -106,6 +108,7 @@
         </div>
     </div>
 
+    <livewire:admin.media-picker />
     @livewireScripts
 </body>
 </html>

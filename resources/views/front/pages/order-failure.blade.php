@@ -10,7 +10,7 @@
     <p class="text-gray-500 text-sm mb-8">No se ha realizado ningun cargo. Puedes intentarlo de nuevo o contactar con nosotros por WhatsApp.</p>
     <div class="flex gap-3 justify-center flex-wrap">
         <a href="{{ route('checkout') }}" class="btn-mystic">Reintentar</a>
-        <a href="https://wa.me/34695619087" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold tracking-wide border border-gold-400/60 text-gold-400 hover:bg-gold-400/10 transition">Contactar WhatsApp</a>
+        <a href="https://wa.me/34695619087" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold tracking-wide border border-pink-300 text-pink-500 hover:bg-pink-50 transition">Contactar WhatsApp</a>
     </div>
 </section>
 @endsection

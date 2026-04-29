@@ -1,19 +1,21 @@
 <div>
     @if($success)
-        <div class="bg-green-50 border border-green-200 rounded-md p-4 text-center">
-            <p class="text-sm text-green-700 font-semibold">¡Suscrito! Recibirás novedades y ofertas.</p>
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-4 text-center">
+            <p class="text-sm text-white font-semibold">¡Suscrito! Recibirás novedades y ofertas.</p>
         </div>
     @else
-        <form wire:submit="subscribe" class="flex gap-2">
-            <input type="email" wire:model="email" placeholder="Tu email" required class="flex-1 border border-pink-200 rounded-md px-3 py-2 text-sm focus:border-pink-500 focus:outline-none">
-            <button type="submit" wire:loading.attr="disabled" class="bg-pink-500 hover:bg-pink-600 text-white text-xs uppercase tracking-widest font-semibold px-4 py-2 rounded-md shrink-0">
-                <span wire:loading.remove>Suscribir</span>
-                <span wire:loading>...</span>
+        <form wire:submit="subscribe" class="flex flex-col sm:flex-row gap-3">
+            <input type="email" wire:model="email" placeholder="Tu correo electrónico" required
+                   class="flex-1 px-5 py-3.5 bg-white/15 border border-white/25 rounded-xl text-white placeholder:text-white/60 focus:border-white/50 focus:outline-none backdrop-blur-sm text-sm">
+            <button type="submit" wire:loading.attr="disabled"
+                    class="bg-white text-pink-600 font-bold text-xs uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-pink-50 transition shadow-lg shrink-0">
+                <span wire:loading.remove>Suscribirse</span>
+                <span wire:loading>Enviando...</span>
             </button>
         </form>
         @if($error)
-            <p class="text-xs text-red-600 mt-1">{{ $error }}</p>
+            <p class="text-xs text-pink-200 mt-2">{{ $error }}</p>
         @endif
-        @error('email')<p class="text-xs text-red-600 mt-1">{{ $message }}</p>@enderror
+        @error('email')<p class="text-xs text-pink-200 mt-2">{{ $message }}</p>@enderror
     @endif
 </div>

@@ -59,6 +59,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('pages', [AdminPageController::class, 'store'])->name('pages.store');
         Route::get('pages/{page}/edit', [AdminPageController::class, 'edit'])->name('pages.edit');
         Route::put('pages/{page}', [AdminPageController::class, 'update'])->name('pages.update');
+        Route::post('pages/{page}/duplicate', [AdminPageController::class, 'duplicate'])->name('pages.duplicate');
         Route::delete('pages/{page}', [AdminPageController::class, 'destroy'])->name('pages.destroy');
 
         // Testimonials
@@ -104,6 +105,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('booking-services/{service}', [AdminBookingController::class, 'updateService'])->name('bookings.services.update');
         Route::delete('booking-services/{service}', [AdminBookingController::class, 'destroyService'])->name('bookings.services.destroy');
 
+        // Media Manager
+        Route::get('media', [\App\Http\Controllers\Admin\MediaManagerController::class, 'index'])->name('media.index');
+        Route::post('media/upload', [\App\Http\Controllers\Admin\MediaManagerController::class, 'upload'])->name('media.upload');
+        Route::put('media/{mediaFile}', [\App\Http\Controllers\Admin\MediaManagerController::class, 'update'])->name('media.update');
+        Route::delete('media/{mediaFile}', [\App\Http\Controllers\Admin\MediaManagerController::class, 'destroy'])->name('media.destroy');
+
         // Google Calendar
         Route::get('google-calendar', [GoogleCalendarController::class, 'index'])->name('google-calendar.index');
         Route::post('google-calendar/credentials', [GoogleCalendarController::class, 'saveCredentials'])->name('google-calendar.save');
@@ -129,6 +136,8 @@ Route::get('/tienda/{slug}', [ShopController::class, 'show'])->name('product');
 Route::get('/coleccion/{slug}', CollectionController::class)->name('collection');
 
 // Redirects 301 - compat WooCommerce
+Route::permanentRedirect('/coleccion/quemadores-sahumadores-de-fumadores-porta-velas-y-porta-inciensos', '/coleccion/quemadores-y-accesorios');
+Route::permanentRedirect('/coleccion/publicaciones', '/coleccion/productos-digitales');
 Route::permanentRedirect('/shop', '/tienda');
 Route::permanentRedirect('/cart', '/carrito');
 Route::permanentRedirect('/my-account', '/carrito');
@@ -141,6 +150,19 @@ Route::get('/categoria-producto/{slug}', fn (string $slug) => redirect()->route(
 Route::view('/carrito', 'front.pages.cart')->name('cart');
 Route::view('/checkout', 'front.pages.checkout')->name('checkout');
 Route::view('/contacto', 'front.pages.contact')->name('contact');
+Route::get('/testimonios', function () {
+    $testimonials = \App\Models\Testimonial::where('approved', true)
+        ->orderByDesc('featured')
+        ->orderBy('sort')
+        ->get();
+    $stats = [
+        'total' => $testimonials->count(),
+        'avg' => round($testimonials->avg('rating') ?: 5, 1),
+        'by_type' => $testimonials->groupBy('service_type')->map->count(),
+    ];
+    \SEO::setTitle('Testimonios de clientes — Hechizos de María');
+    return view('front.pages.testimonials', compact('testimonials', 'stats'));
+})->name('testimonials');
 Route::view('/reservar', 'front.pages.booking')->name('booking');
 
 Route::post('/forms/submit', [FormController::class, 'submit'])->name('forms.submit');

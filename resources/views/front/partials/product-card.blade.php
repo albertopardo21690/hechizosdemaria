@@ -5,36 +5,49 @@
     $eurPrice = $variant?->prices->firstWhere('currency.code', 'EUR') ?? $variant?->prices->first();
     $image = $product->getFirstMedia('images');
     $badge = $badge ?? null;
+    $collection = $product->collections->first();
+    $collectionName = $collection?->attribute_data['name']?->getValue();
 @endphp
 
-<a href="{{ $slug ? route('product', $slug) : '#' }}"
-   class="group block bg-mystic-800/50 border border-gold-500/10 rounded-xl overflow-hidden hover:border-gold-400/60 transition-all duration-500 hover:-translate-y-2">
-    <div class="relative aspect-[4/5] bg-mystic-950 overflow-hidden">
+<div class="group relative bg-white rounded-2xl border border-pink-100 overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-pink-200/40 hover:-translate-y-1">
+    {{-- Image --}}
+    <a href="{{ $slug ? route('product', $slug) : '#' }}" class="block relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-pink-50 to-white">
         @if($image)
             <img src="{{ $image->getUrl('medium') }}" alt="{{ $name }}" loading="lazy"
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
         @else
-            <div class="w-full h-full relative bg-gradient-to-br from-purple-900/60 via-mystic-800 to-mystic-950 flex items-center justify-center">
-                <div class="absolute inset-0 opacity-25" style="background: radial-gradient(circle at center, #d4a853 0%, transparent 55%);"></div>
-                <svg class="relative w-20 h-20 text-gold-400/70" fill="none" stroke="currentColor" stroke-width="0.6" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2l2.39 7.36H22l-6.18 4.49 2.36 7.36L12 16.72 5.82 21.21l2.36-7.36L2 9.36h7.61z"/>
+            <div class="w-full h-full flex flex-col items-center justify-center text-pink-300">
+                <svg class="w-16 h-16 mb-2 opacity-60" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/>
                 </svg>
+                <span class="text-[10px] uppercase tracking-[0.3em] font-heading text-pink-400">Hechizos de María</span>
             </div>
         @endif
 
+        {{-- Badge --}}
         @if($badge)
-            <span class="absolute top-3 left-3 bg-gold-400 text-mystic-900 text-[10px] font-black uppercase px-2 py-1 tracking-widest rounded-sm">{{ $badge }}</span>
+            <span class="absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold uppercase px-2.5 py-1 tracking-widest rounded-full shadow-md">{{ $badge }}</span>
         @endif
-    </div>
 
-    <div class="p-5">
-        <div class="flex gap-0.5 text-gold-400 text-xs mb-2">
-            &#9733;&#9733;&#9733;&#9733;&#9733;
-        </div>
-        <h3 class="font-heading text-base mb-3 line-clamp-2 group-hover:text-gold-400 transition-colors min-h-[2.8rem]">{{ $name }}</h3>
-        @if($eurPrice)
-            <p class="text-gold-400 font-bold text-lg">{{ number_format($eurPrice->price->decimal, 2, ',', '.') }} €</p>
+        {{-- Quick add overlay --}}
+        @if($variant)
+            <div class="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <button onclick="event.preventDefault(); Livewire.dispatch('quick-add', { variantId: {{ $variant->id }} })"
+                        class="w-full bg-pink-500 hover:bg-pink-600 text-white text-xs font-bold uppercase tracking-widest py-2.5 rounded-lg shadow-lg backdrop-blur-sm transition-colors">
+                    Añadir al carrito
+                </button>
+            </div>
         @endif
-    </div>
-</a>
+    </a>
+
+    {{-- Info --}}
+    <a href="{{ $slug ? route('product', $slug) : '#' }}" class="block p-4">
+        @if($collectionName)
+            <span class="text-[10px] uppercase tracking-[0.25em] text-pink-400 font-semibold">{{ $collectionName }}</span>
+        @endif
+        <h3 class="font-heading text-sm text-gray-800 mt-1 mb-2 line-clamp-2 group-hover:text-pink-600 transition-colors min-h-[2.5rem] leading-snug">{{ $name }}</h3>
+        @if($eurPrice)
+            <p class="text-pink-600 font-bold text-lg">{{ number_format($eurPrice->price->decimal, 2, ',', '.') }} €</p>
+        @endif
+    </a>
+</div>

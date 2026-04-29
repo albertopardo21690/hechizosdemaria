@@ -6,15 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use App\Models\Testimonial;
 use Lunar\Models\Collection;
-use Lunar\Models\Product;
 
 class HomeController extends Controller
 {
     public function __invoke()
     {
         \View::share('themeContext', ['is_home' => true]);
-        \SEO::setTitle('Tarot, rituales y magia blanca');
-        \SEO::setDescription('Lecturas de tarot, rituales personalizados y tienda magica con perfumes arabes, amuletos y cuarzos. Por Maria Jose Gomez, tarotista profesional con 164k+ seguidores.');
+        \SEO::setTitle('Lecturas de tarot por María José');
+        \SEO::setDescription('Lecturas de tarot, péndulo y bola de cristal. Gabinete 24 horas disponible. María José Gómez, tarotista profesional con 164k+ seguidores.');
         \SEO::jsonLd()->setType('LocalBusiness');
         \SEO::jsonLd()->addValue('telephone', '+34 695 619 087');
         \SEO::jsonLd()->addValue('email', 'hechizosdemaria@gmail.com');
@@ -24,18 +23,8 @@ class HomeController extends Controller
             'addressCountry' => 'ES',
         ]);
 
-        $lecturas = $this->productsByCollectionSlug('lecturas', 4);
-
-        $destacados = Product::where('status', 'published')
-            ->has('media')
-            ->inRandomOrder()
-            ->take(8)
-            ->get();
-
-        $featuredCategories = $this->featuredCategories([
-            'lecturas', 'rituales', 'perfumes-arabes',
-            'inciensos-organicos', 'jabones-y-banos', 'figuras-y-bustos',
-        ]);
+        // Principal focus of the site: readings ordered by price ASC (pendulum → 50€ → intermediate → premium)
+        $lecturas = $this->productsByCollectionSlug('lecturas', 8);
 
         $testimonials = Testimonial::where('approved', true)
             ->where('featured', true)
@@ -48,9 +37,7 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        return view('front.home', compact(
-            'lecturas', 'destacados', 'featuredCategories', 'testimonials', 'posts'
-        ));
+        return view('front.home', compact('lecturas', 'testimonials', 'posts'));
     }
 
     protected function productsByCollectionSlug(string $slug, int $limit)
@@ -62,26 +49,9 @@ class HomeController extends Controller
 
         return $collection->products()
             ->where('status', 'published')
-            ->take($limit)
-            ->get();
-    }
-
-    protected function featuredCategories(array $slugs): \Illuminate\Support\Collection
-    {
-        return collect($slugs)->map(function ($slug) {
-            $collection = Collection::whereHas('urls', fn ($q) => $q->where('slug', $slug))
-                ->with('urls')
-                ->first();
-            if (! $collection) {
-                return null;
-            }
-            $firstProduct = $collection->products()->where('status', 'published')->has('media')->first();
-
-            return (object) [
-                'name' => $collection->attribute_data['name']?->getValue() ?? '-',
-                'slug' => $collection->urls->where('default', true)->first()?->slug ?? $slug,
-                'image' => $firstProduct?->getFirstMedia('images')?->getUrl('medium'),
-            ];
-        })->filter();
+            ->with(['variants.prices.currency', 'media', 'urls'])
+            ->get()
+            ->sortBy(fn ($p) => $p->variants->first()?->prices->firstWhere('currency.code', 'EUR')?->price->decimal ?? PHP_INT_MAX)
+            ->take($limit);
     }
 }

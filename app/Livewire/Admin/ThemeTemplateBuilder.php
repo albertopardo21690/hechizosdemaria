@@ -797,6 +797,15 @@ class ThemeTemplateBuilder extends Component
         return null;
     }
 
+    #[On('media-selected')]
+    public function onMediaSelected(string $url, string $field): void
+    {
+        if (str_starts_with($field, 'sections.')) {
+            data_set($this, $field, $url);
+            $this->persist();
+        }
+    }
+
     public function updatedSections(): void
     {
         $this->persist();

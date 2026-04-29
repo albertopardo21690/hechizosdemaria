@@ -34,7 +34,11 @@
                             <span class="text-[10px] font-mono text-pink-600 uppercase tracking-widest">Slide {{ $idx + 1 }}</span>
                             <button type="button" wire:click="carouselRemoveSlide('{{ $block['id'] }}', {{ $idx }})" class="text-red-500 hover:text-red-700 text-xs">Eliminar</button>
                         </div>
-                        <input type="text" wire:model.lazy="{{ $path }}.props.slides.{{ $idx }}.image" placeholder="URL imagen (/images/...)" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-xs font-mono">
+                        @include('admin.pages.builder._image-field', [
+                            'fieldId' => $path.'.props.slides.'.$idx.'.image',
+                            'label' => 'Imagen',
+                            'value' => $slide['image'] ?? '',
+                        ])
                         <input type="text" wire:model.lazy="{{ $path }}.props.slides.{{ $idx }}.heading" placeholder="Título" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-xs font-heading">
                         <input type="text" wire:model.lazy="{{ $path }}.props.slides.{{ $idx }}.subheading" placeholder="Subtítulo" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-xs">
                         <div class="grid grid-cols-2 gap-2">

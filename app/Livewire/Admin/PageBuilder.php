@@ -798,6 +798,16 @@ class PageBuilder extends Component
         return null;
     }
 
+    #[On('media-selected')]
+    public function onMediaSelected(string $url, string $field): void
+    {
+        // Field comes as dot-notation path like "sections.0.columns.0.widgets.0.props.image_url"
+        if (str_starts_with($field, 'sections.')) {
+            data_set($this, $field, $url);
+            $this->persist();
+        }
+    }
+
     public function updatedSections(): void
     {
         $this->persist();
